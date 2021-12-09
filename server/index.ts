@@ -4,7 +4,8 @@ import cors from "cors";
 import compression from "compression";
 import morgan, { StreamOptions } from "morgan";
 import { isDevelopment, Logger } from "./config";
-// import router from "./routes";
+import { notFound } from "./controllers/HttpStatus.controller";
+import router from "./routes";
 
 const stream: StreamOptions = { write: (message) => Logger.http(message) };
 
@@ -21,11 +22,6 @@ app
   .set("json spaces", 2)
   .use(compression())
   .use(cors())
-  // .use("/api", router)
-  .use((req, res) =>
-    res.status(400).json({
-      message: "Not a valid route",
-      status: 404,
-    }),
-  );
+  .use("/api", router)
+  .use(notFound);
 app.listen(API_PORT, () => Logger.debug(`Server running on port ${API_PORT}.`));
