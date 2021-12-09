@@ -1,0 +1,15 @@
+# OS generated files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# Project files
+.cache
+logs/
+dist/
+public/
+node_modules/
+*.log
+*.env
