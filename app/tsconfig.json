@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "esnext"],
+    "jsx": "react",
+    "baseUrl": "./src",
+    "paths": {
+      "components/*": ["./components/*"],
+      "containers/*": ["./containers/*"],
+      "hooks/*": ["./hooks/*"],
+      "reducers/*": ["./reducers/*"],
+      "routes/*": ["./routes/*"],
+      "utils/*": ["./utils/*"]
+    }
+  },
+  "extends": "../config/tsconfig.json",
+  "exclude": ["../server"]
+}

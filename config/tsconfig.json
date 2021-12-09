@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["dom", "esnext"],
-    "jsx": "react",
     "experimentalDecorators": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "./client",
-    "paths": {},
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist",

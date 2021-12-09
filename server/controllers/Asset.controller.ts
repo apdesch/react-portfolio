@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Asset, { IAsset } from "../models/Asset.model";
-import { Payload } from "../types";
+import Asset, { IAsset } from "models/Asset.model";
+import { Payload } from "config/types";
 
 const AssetController = {
   create: (req: Request, res: Response) => {

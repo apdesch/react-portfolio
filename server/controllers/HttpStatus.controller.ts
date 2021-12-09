@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import HTTP_STATUS_CODES from "http-status-enum";
-import { Payload } from "../types";
+import { Payload } from "config/types";
 
 enum HTTP_STATUS_MESSAGE {
   BAD_REQUEST = "Bad Request",
@@ -15,7 +15,7 @@ const badRequest = (req: Request, res: Response): Response => {
   return res.status(status).json(payload);
 };
 
-const internal = (req: Request, res: Response) => {
+const internalError = (req: Request, res: Response) => {
   const status = HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR;
   const message = HTTP_STATUS_MESSAGE.INTERNAL_SERVER_ERROR;
   const payload: Payload<string> = { message, status };
@@ -29,4 +29,4 @@ const notFound = (req: Request, res: Response) => {
   return res.status(status).json(payload);
 };
 
-export { badRequest, internal, notFound };
+export { badRequest, internalError, notFound };

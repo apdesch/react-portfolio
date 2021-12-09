@@ -8,7 +8,7 @@ const Asset = {
   findOne: (id: string): IAsset => {
     const timestamp = new Date();
     return {
-      id: "1",
+      id,
       timestamp,
       url: "http://apdesch.com/",
     };

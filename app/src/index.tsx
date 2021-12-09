@@ -1,11 +1,15 @@
 import React from "react";
 import { render } from "react-dom";
+import AppProvider from "./App.provider";
+import App from "./App";
 import "./index.css";
 
 const mountNode = document.getElementById("app");
 render(
   <React.StrictMode>
-    <h1>App</h1>
+    <AppProvider>
+      <App />
+    </AppProvider>
   </React.StrictMode>,
   mountNode,
 );
