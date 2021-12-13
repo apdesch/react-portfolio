@@ -1,15 +1,7 @@
 {
   "compilerOptions": {
-    "lib": ["es6"],
-    "baseUrl": ".",
-    "paths": {
-      "configs/*": ["./configs/*"],
-      "controllers/*": ["./controllers/*"],
-      "middleware/*": ["./middleware/*"],
-      "models/*": ["./models/*"],
-      "routes/*": ["./routes/*"]
-    }
+    "lib": ["es6"]
   },
   "extends": "../config/tsconfig.json",
-  "exclude": ["../app"]
+  "exclude": ["../client"]
 }

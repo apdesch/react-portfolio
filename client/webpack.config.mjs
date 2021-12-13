@@ -48,6 +48,14 @@ export default {
   plugins: [new HtmlWebpackPlugin(template), new MiniCssExtractPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      components: resolve(__dirname, "src/components/"),
+      containers: resolve(__dirname, "src/containers/"),
+      hooks: resolve(__dirname, "src/hooks/"),
+      reducers: resolve(__dirname, "src/reducers/"),
+      routes: resolve(__dirname, "src/routes/"),
+      utils: resolve(__dirname, "src/utils/"),
+    },
   },
   performance: {
     maxAssetSize: 512000,

@@ -1,19 +1,21 @@
+require("dotenv").config({ path: "../.env" });
+import morgan from "morgan";
 import connectDB from "./config/db";
 import errorHandler from "./middleware/errorHandler";
-import Logger from "./config/logger";
 import app from "./app";
 
 connectDB();
 
-const port = process.env.API_PORT;
+const port = process.env.API_PORT || 5000;
 
+app.use(morgan(":method :url :status - :response-time ms"));
 app.use(errorHandler);
 
 const server = app.listen(port, (): void => {
-  Logger.debug(`Server running on port ${port}.`);
+  console.debug(`Server running on port ${port}.`);
 });
 
 process.on("unhandledRejection", (error): void => {
-  Logger.error(error);
+  console.debug(`Error: ${error}`);
   server.close(() => process.exit(1));
 });

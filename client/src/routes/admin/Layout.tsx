@@ -2,11 +2,11 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import GlobalHeader from "components/GlobalHeader";
 
-const Layout: React.FC = (): JSX.Element => (
+const AdminLayout: React.FC = (): JSX.Element => (
   <div>
-    <GlobalHeader title="App" />
+    <GlobalHeader to="/admin" title="Admin" />
     <Outlet />
   </div>
 );
 
-export default Layout;
+export default AdminLayout;
