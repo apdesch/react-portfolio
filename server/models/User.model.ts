@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { duplicateCollectionItem } from "../utils/validation";
 
 export interface IUser {
+  id: string;
   username: string;
   email: string;
   password: string;

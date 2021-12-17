@@ -21,7 +21,7 @@ const GlobalHeader: React.FC<HeaderProps> = ({
     <Link to={to}>{title}</Link>
     {nav &&
       nav.map(({ path, label }: NavProps) => (
-        <Link style={{ float: "right" }} to={path}>
+        <Link style={{ float: "right" }} to={path} key={`nav-${path}`}>
           {label}
         </Link>
       ))}

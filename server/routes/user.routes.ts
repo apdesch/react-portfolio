@@ -1,14 +1,14 @@
 import { Router } from "express";
 import UserController from "../controllers/User.controller";
-import { protect } from "../middleware/auth";
+import { auth } from "../middleware/auth";
 
 const userRouter = Router();
 
 userRouter
   .post("/", UserController.create)
-  .get("/", protect, UserController.read)
-  .put("/", protect, UserController.update)
-  .delete("/", protect, UserController.delete)
+  .get("/", auth, UserController.read)
+  .put("/", auth, UserController.update)
+  .delete("/", auth, UserController.delete)
   .post("/login", UserController.login);
 
 export default userRouter;

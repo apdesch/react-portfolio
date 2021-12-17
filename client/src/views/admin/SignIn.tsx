@@ -1,33 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetch from "utils/http";
+import { AppContext } from "../../contexts/App.context";
+import type { RouteProps } from "../../components/Head";
+import Head from "../../components/Head";
+import axios from "axios";
 
-interface TokenResponse {
-  token: string;
+interface AuthResponse {
+  auth: boolean;
 }
 
-const SignIn = (): JSX.Element => {
+const SignIn = ({ title, description }: RouteProps) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { state, dispatch } = useContext(AppContext);
 
-  useEffect(() => {
-    if (localStorage.getItem("authToken")) {
-      navigate("/admin");
-    }
-  }, []);
+  if (state.auth.loggedIn) navigate("/admin", { replace: true });
 
   const loginHandler = async (event: React.MouseEvent) => {
     event.preventDefault();
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
       const payload = { email, password };
-      const data: TokenResponse = await fetch.post(
+      const { data } = await axios.post<AuthResponse>(
         "/api/user/login",
         payload,
-        config,
       );
-      localStorage.setItem("authToken", data.token);
+      dispatch({ type: "LOGIN_REQUEST", payload: { loggedIn: data.auth } });
       navigate("/admin");
     } catch (error) {
       console.log((error as Error).message);
@@ -36,6 +34,7 @@ const SignIn = (): JSX.Element => {
 
   return (
     <>
+      <Head title={title} description={description} />
       <h1>Sign In</h1>
       <div>
         <label>

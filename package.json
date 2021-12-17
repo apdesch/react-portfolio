@@ -1,5 +1,10 @@
 {
   "private": true,
+  "scripts": {
+    "start": "npm run server & npm run client",
+    "client": "npm start --prefix client",
+    "server": "npm start --prefix server"
+  },
   "devDependencies": {
     "typescript": "^4.5.2"
   }

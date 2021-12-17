@@ -15,7 +15,7 @@ const UserController = {
       if (!user || !passwordMatch) {
         return next(new ErrorResponse("Invalid credentials", 401));
       }
-      sendToken(user, 200, res);
+      setUserId(user, req, res);
     } catch (error) {
       next(error);
     }
@@ -28,27 +28,33 @@ const UserController = {
         email,
         password,
       });
-      sendToken(user, 201, res);
+      setUserId(user, req, res);
     } catch (error) {
       next(error);
     }
   },
-  read: (req: any, res: Response): Response => {
-    const { username } = req.user;
-    return res.json({ message: `Welcome ${username}` });
+  read: (req: Request, res: Response): Response => {
+    const auth = !!req.session.userId;
+    return res.json({ auth, ...{ user: req.session.user } });
   },
   update: (req: Request, res: Response): Response => {
     const { username } = req.body;
     return res.json({ username });
   },
   delete: (req: Request, res: Response): Response => {
-    return res.json({ message: "User removed" });
+    delete req.session["userId"];
+    return res.json({ auth: false });
   },
 };
 
-const sendToken = (user: UserDocument, statusCode: number, res: Response) => {
-  const token = user.getSignedToken();
-  res.status(statusCode).json({ token });
+const setUserId = (user: UserDocument, req: Request, res: Response) => {
+  const payload = {
+    username: user.username,
+    email: user.email,
+    name: user.name,
+  };
+  Object.assign(req.session, { userId: user.id, user: payload });
+  return res.json({ auth: true });
 };
 
 export default UserController;

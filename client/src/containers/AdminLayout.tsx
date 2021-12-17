@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import GlobalHeader from "components/GlobalHeader";
+import GlobalHeader from "../components/GlobalHeader";
 
 const AdminLayout: React.FC = (): JSX.Element => (
   <div>

@@ -1,5 +1,5 @@
 import { createContext, Dispatch } from "react";
-import { AppState, AppAction } from "reducers/types";
+import { AppState, AppAction } from "../reducers/types";
 
 const initialState: AppState = {
   auth: { loggedIn: false, user: null },
