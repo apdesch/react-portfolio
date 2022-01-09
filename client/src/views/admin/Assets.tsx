@@ -1,5 +1,5 @@
-import type { RouteProps } from "../../components/Head";
-import Head from "../../components/Head";
+import type { RouteProps } from "components/Head";
+import Head from "components/Head";
 
 const Assets = ({ title, description }: RouteProps) => (
   <>

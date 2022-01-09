@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import GlobalHeader from "../components/GlobalHeader";
+import GlobalHeader from "components/GlobalHeader";
 
-const Layout: React.FC = (): JSX.Element => (
+const PublicLayout: React.FC = (): JSX.Element => (
   <div>
     <GlobalHeader
       to="/"
@@ -13,4 +13,4 @@ const Layout: React.FC = (): JSX.Element => (
   </div>
 );
 
-export default Layout;
+export default PublicLayout;

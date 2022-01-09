@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { AppContext } from "../contexts/App.context";
-import SignIn from "../views/admin/SignIn";
+import { AppContext } from "contexts/App.context";
+import SignIn from "views/admin/SignIn";
 
 const PrivateRoutes: React.FC = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,9 @@ const PrivateRoutes: React.FC = (): JSX.Element => {
         data: { auth, user },
       } = await axios.get("/api/user");
       setLoading(false);
-      if (auth) dispatch({ type: "LOGIN_SUCCESS", payload: { user } });
+      if (auth && Object.entries(user).length) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: user });
+      }
     };
     fetchData();
   }, [dispatch]);

@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../../contexts/App.context";
-import type { RouteProps } from "../../components/Head";
-import Head from "../../components/Head";
+import { AppContext } from "contexts/App.context";
+import type { RouteProps } from "components/Head";
+import Head from "components/Head";
 import axios from "axios";
 
 interface AuthResponse {
@@ -28,7 +28,7 @@ const SignIn = ({ title, description }: RouteProps) => {
       dispatch({ type: "LOGIN_REQUEST", payload: { loggedIn: data.auth } });
       navigate("/admin");
     } catch (error) {
-      console.log((error as Error).message);
+      console.log(error);
     }
   };
 

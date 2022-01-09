@@ -1,6 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { duplicateCollectionItem } from "../utils/validation";
 
 export interface IUser {
@@ -71,12 +70,6 @@ UserSchema.methods.checkPasswordMatch = async function (
 ): Promise<boolean> {
   const result = await bcrypt.compare(password, this.password);
   return result;
-};
-
-UserSchema.methods.getSignedToken = function () {
-  const jwtSecret = process.env.JWT_SECRET || "";
-  const expiresIn = process.env.JWT_EXPIRE;
-  return jwt.sign({ id: this._id }, jwtSecret, { expiresIn });
 };
 
 const User: Model<UserDocument> = mongoose.model<UserDocument>(

@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
-import { AppContext, initialState } from "../contexts/App.context";
-import rootReducer from "../reducers/root.reducer";
+import { AppContext, initialState } from "contexts/App.context";
+import rootReducer from "reducers/root.reducer";
 
 const AppProvider: React.FC = ({ children }): JSX.Element => {
   const [state, dispatch] = useReducer(rootReducer, initialState);
