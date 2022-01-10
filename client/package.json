@@ -1,7 +1,10 @@
 {
   "private": true,
+  "proxy": "http://localhost:5000",
   "scripts": {
-    "start": "webpack serve --hot --open --mode development"
+    "start": "webpack serve --hot --open --mode development",
+    "build": "rm -rf public && webpack --mode production",
+    "prod": "npm run build && NODE_ENV=production node server"
   },
   "dependencies": {
     "@babel/core": "^7.16.7",
