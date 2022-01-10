@@ -8,6 +8,7 @@ const Register = ({ title }: RouteProps) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleRegistration = async (event: FormEvent) => {
     event.preventDefault();
@@ -20,7 +21,7 @@ const Register = ({ title }: RouteProps) => {
       console.log(data);
       navigate("/admin");
     } catch (error) {
-      console.log(error);
+      setError((error as Error).message);
     }
   };
 
@@ -52,7 +53,7 @@ const Register = ({ title }: RouteProps) => {
       <form onSubmit={handleRegistration}>
         {fields.map((field, index) => (
           <>
-            {index && <br />}
+            {!!index && <br />}
             <label>
               {field.label}{" "}
               <input
@@ -63,6 +64,7 @@ const Register = ({ title }: RouteProps) => {
             </label>
           </>
         ))}
+        {error && <div>{error}</div>}
         <button type="submit">Register</button>
       </form>
     </>

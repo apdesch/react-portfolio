@@ -14,6 +14,7 @@ const PrivateRoutes: React.FC = (): JSX.Element => {
         data: { auth, user },
       } = await axios.get("/api/user");
       setLoading(false);
+      dispatch({ type: "LOGIN_REQUEST" });
       if (auth && Object.entries(user).length) {
         dispatch({ type: "LOGIN_SUCCESS", payload: user });
       }

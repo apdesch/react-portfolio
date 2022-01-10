@@ -7,14 +7,14 @@ import { UserDocument } from "./models/User.model";
 
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
 const SESSION_SECRET = process.env.SESSION_SECRET || "";
-const SESSION_EXPIRES = parseInt(process.env.SESSION_EXPIRES || "") || 0;
+const SESSION_MAX_AGE = parseInt(process.env.SESSION_MAX_AGE || "") || 0;
 const app = express();
 
 const sessionConfig = {
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, secure: false, maxAge: SESSION_EXPIRES },
+  cookie: { httpOnly: true, secure: false, maxAge: SESSION_MAX_AGE },
 };
 
 if (app.get("env") === "production") {
@@ -35,6 +35,7 @@ app
   .use(compression())
   .use(cors({ origin: CLIENT_URL, credentials: true }))
   .use(session(sessionConfig))
-  .use("/api", router);
+  .use("/api", router)
+  .use((req, res) => res.json({ error: "not a valid route" }));
 
 export default app;

@@ -6,20 +6,16 @@ interface AppState {
 }
 type AppAction = Reducer;
 
-// Authentication
-export type Auth = {
-  token: string;
-};
-
 export type AuthState = {
   loggedIn: boolean;
   user: Auth | null;
+  error?: string;
 };
 
 export type AuthAction =
   | { type: "LOGIN_REQUEST"; payload: Auth }
   | { type: "LOGIN_SUCCESS"; payload: Auth }
-  | { type: "LOGIN_FAILURE" }
+  | { type: "LOGIN_FAILURE"; payload: string }
   | { type: "LOGOUT" };
 
 // User

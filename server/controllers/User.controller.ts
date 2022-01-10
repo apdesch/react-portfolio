@@ -27,6 +27,9 @@ const UserController = {
         username,
         email,
         password,
+        admin: false,
+        photo: "",
+        name: "",
       });
       setUserId(user, req, res);
     } catch (error) {
@@ -54,7 +57,7 @@ const setUserId = (user: UserDocument, req: Request, res: Response) => {
     name: user.name,
   };
   Object.assign(req.session, { userId: user.id, user: payload });
-  return res.json({ auth: true });
+  return res.json({ auth: true, user: payload });
 };
 
 export default UserController;

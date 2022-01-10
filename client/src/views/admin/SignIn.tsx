@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "contexts/App.context";
 import type { RouteProps } from "components/Head";
 import Head from "components/Head";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { User } from "reducers/types";
 
 interface AuthResponse {
   auth: boolean;
+  user: User;
+  error?: string;
 }
 
 const SignIn = ({ title, description }: RouteProps) => {
@@ -25,10 +28,11 @@ const SignIn = ({ title, description }: RouteProps) => {
         "/api/user/login",
         payload,
       );
-      dispatch({ type: "LOGIN_REQUEST", payload: { loggedIn: data.auth } });
+      dispatch({ type: "LOGIN_SUCCESS", payload: data.user });
       navigate("/admin");
     } catch (error) {
-      console.log(error);
+      const errorMessage = (error as AxiosError).response?.data?.error;
+      dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
     }
   };
 
@@ -57,6 +61,8 @@ const SignIn = ({ title, description }: RouteProps) => {
           />
         </label>
       </div>
+      <br />
+      {state.auth.error && <strong>{state.auth.error}</strong>}
       <br />
       <button type="button" onClick={loginHandler}>
         Sign In

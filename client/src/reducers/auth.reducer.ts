@@ -3,6 +3,7 @@ import { AuthState, AuthAction } from "./types";
 const initialState: AuthState = {
   loggedIn: false,
   user: null,
+  error: "",
 };
 
 const AuthReducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -10,8 +11,7 @@ const AuthReducer = (state: AuthState, action: AuthAction): AuthState => {
     case "LOGIN_REQUEST":
       return {
         ...state,
-        loggedIn: true,
-        user: action.payload,
+        error: initialState.error,
       };
     case "LOGIN_SUCCESS":
       return {
@@ -23,6 +23,7 @@ const AuthReducer = (state: AuthState, action: AuthAction): AuthState => {
       return {
         ...state,
         ...initialState,
+        error: action.payload,
       };
     case "LOGOUT":
       return {
