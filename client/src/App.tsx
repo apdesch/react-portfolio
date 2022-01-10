@@ -1,10 +1,11 @@
+import React from "react";
 import { useRoutes } from "react-router-dom";
-import "./App.css";
+import { hot } from "react-hot-loader/root";
 import routes from "./routes";
 
-function App() {
+const App: React.FC = () => {
   const router = useRoutes(routes);
   return router;
-}
+};
 
-export default App;
+export default hot(App);

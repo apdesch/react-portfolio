@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { AppContext } from "contexts/App.context";
-import SignIn from "views/admin/SignIn";
+import SignIn from "containers/views/admin/SignIn";
 
 const PrivateRoutes: React.FC = (): JSX.Element => {
   const [loading, setLoading] = useState(true);

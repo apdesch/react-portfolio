@@ -1,11 +1,12 @@
+import React from "react";
 import type { RouteProps } from "components/Head";
 import Head from "components/Head";
 
-const Assets = ({ title, description }: RouteProps) => (
+const Home = ({ title, description }: RouteProps) => (
   <>
     <Head title={title} description={description} />
-    <h1>Assets</h1>
+    <h1>Welcome</h1>
   </>
 );
 
-export default Assets;
+export default Home;

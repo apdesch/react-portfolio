@@ -9,6 +9,7 @@ Thumbs.db
 .cache
 logs/
 dist/
+public/
 node_modules/
 *.log
 *.env
