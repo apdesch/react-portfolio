@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es6"]
+    "lib": ["esnext"]
   },
   "extends": "../config/tsconfig.json",
   "exclude": ["../client"]

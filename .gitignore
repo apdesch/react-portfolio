@@ -11,5 +11,6 @@ logs/
 dist/
 public/
 node_modules/
+uploads/
 *.log
 *.env
