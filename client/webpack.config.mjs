@@ -3,8 +3,12 @@ import { fileURLToPath } from "url";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const isDevelopment = process.env.NODE_ENV !== "production";
 
 const template = {
   template: resolve(__dirname, "src/static/index.html"),
@@ -19,9 +23,10 @@ export default {
     historyApiFallback: true,
     proxy: {
       "/api": "http://localhost:5000",
+      "/uploads": "http://localhost:5000",
     },
   },
-  entry: ["react-hot-loader/patch", "./src/index.tsx"],
+  entry: ["./src/index.tsx"],
   output: {
     filename: "[name]-[fullhash:5].js",
     path: resolve(__dirname, "public"),
@@ -41,7 +46,19 @@ export default {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin(template), new MiniCssExtractPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin(template),
+    new MiniCssExtractPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, "src/static/images"),
+          to: resolve(__dirname, "public"),
+        },
+      ],
+    }),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
   resolve: {
     plugins: [new TsconfigPathsPlugin()],
     extensions: [".tsx", ".ts", ".jsx", ".js"],

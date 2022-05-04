@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export type RouteProps = {
   title: string;
@@ -7,10 +7,12 @@ export type RouteProps = {
 };
 
 const Head: React.FC<RouteProps> = ({ title, description }): JSX.Element => (
-  <Helmet>
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
-  </Helmet>
+  <HelmetProvider>
+    <Helmet>
+      <title>{title}</title>
+      {description && <meta name="description" content={description} />}
+    </Helmet>
+  </HelmetProvider>
 );
 
 export default Head;

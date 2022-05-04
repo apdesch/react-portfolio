@@ -1,24 +1,25 @@
 import mongoose, { Schema, Model, ObjectId } from "mongoose";
 
 export interface AssetDocument {
-  label: string;
-  description: string;
   filename: string;
+  originalname: string;
   path: string;
   mimetype: string;
   ext: string;
-  altText: string;
   created: string;
-  imageThumbPath: string;
-  imageSmallPath: string;
-  imageDetailPath: string;
-  imageLargePath: string;
+  title: string;
+  description: string;
+  altText: string;
   username: string;
   userId: ObjectId;
 }
 
 const AssetSchema: Schema<AssetDocument> = new Schema({
   filename: {
+    type: String,
+    required: true,
+  },
+  originalname: {
     type: String,
     required: true,
   },
@@ -38,11 +39,7 @@ const AssetSchema: Schema<AssetDocument> = new Schema({
     type: String,
     required: true,
   },
-  username: {
-    type: String,
-    required: true,
-  },
-  label: {
+  title: {
     type: String,
   },
   description: {
@@ -51,17 +48,9 @@ const AssetSchema: Schema<AssetDocument> = new Schema({
   altText: {
     type: String,
   },
-  imageThumbPath: {
+  username: {
     type: String,
-  },
-  imageSmallPath: {
-    type: String,
-  },
-  imageDetailPath: {
-    type: String,
-  },
-  imageLargePath: {
-    type: String,
+    required: true,
   },
   userId: {
     type: Schema.Types.ObjectId,

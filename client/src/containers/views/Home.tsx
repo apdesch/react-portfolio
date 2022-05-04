@@ -5,7 +5,9 @@ import Head from "components/Head";
 const Home = ({ title, description }: RouteProps) => (
   <>
     <Head title={title} description={description} />
-    <h1>Welcome</h1>
+    <div>
+      <h1>Adam Deschamp</h1>
+    </div>
   </>
 );
 

@@ -36,6 +36,7 @@ app
   .use(cors({ origin: CLIENT_URL, credentials: true }))
   .use(session(sessionConfig))
   .use("/api", router)
+  .use("/uploads", express.static(__dirname + "/uploads"))
   .use((req, res) => res.json({ error: "not a valid route" }));
 
 export default app;

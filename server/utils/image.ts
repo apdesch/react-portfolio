@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import gm from "gm";
 import sharp from "sharp";
 
 type ExtMap = {
@@ -38,10 +39,11 @@ export const setResizeDimensions = (
 
 export const getExtensionFromMimetype = (mimetype: string) => {
   const map: ExtMap = {
+    "application/pdf": "pdf",
     "image/jpeg": "jpg",
     "image/png": "png",
     "image/gif": "gif",
-    "application/pdf": "pdf",
+    "video/mp4": "mp4",
   };
   return map[mimetype] || "";
 };
@@ -55,7 +57,7 @@ export const createResizedImage = async (filename: string, size: ImageSize) => {
   };
   const dest = "./uploads/";
   const buffer = sharp(`${dest}/${filename}`);
-  const { width, height } = await buffer.metadata();
+  const { width, height, hasAlpha } = await buffer.metadata();
   if (width && height) {
     const [resizeWidth, resizeHeight] = setResizeDimensions(
       width,
@@ -63,9 +65,24 @@ export const createResizedImage = async (filename: string, size: ImageSize) => {
       sizes[size],
     );
     await fs.mkdir(`${dest}/${size}`, { recursive: true });
-    await buffer
-      .jpeg()
+    await buffer[hasAlpha ? "png" : "jpeg"]()
       .resize(resizeWidth, resizeHeight)
       .toFile(`${dest}/${size}/${filename}`);
   }
+};
+
+export const createPDFThumbnail = async (filename: string) => {
+  const thumb = new Promise((resolve, reject) => {
+    gm(`./uploads/${filename}`).thumb(
+      240,
+      240,
+      `./uploads/thumb/${filename}.jpg`,
+      80,
+      (error, stdout, stderr, command) => {
+        if (!error) resolve(command);
+        else reject(error);
+      },
+    );
+  });
+  await thumb;
 };
