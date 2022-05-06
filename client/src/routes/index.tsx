@@ -5,7 +5,7 @@ import AdminLayout from "containers/layouts/AdminLayout";
 import PublicLayout from "containers/layouts/PublicLayout";
 import NotFound from "containers/views/NotFound";
 import Home from "containers/views/Home";
-import About from "containers/views/About";
+import Portfolio from "containers/views/Portfolio";
 import Dashboard from "containers/views/admin/Dashboard";
 import Assets from "containers/views/admin/Assets";
 import Register from "containers/views/admin/Register";
@@ -16,7 +16,7 @@ const routes: RouteObject[] = [
     element: <PublicLayout />,
     children: [
       { index: true, element: <Home title="Welcome" /> },
-      { path: "/about", element: <About title="About" /> },
+      { path: "/portfolio", element: <Portfolio title="Portfolio" /> },
     ],
   },
   {
