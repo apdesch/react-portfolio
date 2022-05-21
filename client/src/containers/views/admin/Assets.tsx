@@ -1,7 +1,7 @@
 import React, { FormEvent, useState, useEffect, useRef } from "react";
 import type { RouteProps } from "components/Head";
 import Head from "components/Head";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 interface Asset {
   filename: string;
@@ -62,18 +62,20 @@ const Assets = ({ title, description }: RouteProps) => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    try {
-      const { data } = await axios.delete<{ message: string }>(
-        `/api/assets/${id}`,
-      );
-      if (data.message) {
-        console.log(data.message);
-        setFileList(fileList?.filter((file) => file.id !== id));
+  const handleDelete = (id: string) => {
+    return async (event: FormEvent) => {
+      event.preventDefault();
+      try {
+        const { data } = await axios.delete<{ message: string }>(
+          `/api/assets/${id}`,
+        );
+        if (data.message) {
+          setFileList(fileList?.filter((file) => file.id !== id));
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
+    };
   };
 
   useEffect(() => {
@@ -106,7 +108,7 @@ const Assets = ({ title, description }: RouteProps) => {
       <main>
         {fileList &&
           fileList.map(({ id, filename, originalname, ext, mimetype }) => {
-            const thumbURL = `${filename}${ext === "pdf" ? ".jpg" : ""}`;
+            const thumbURL = `${filename}${ext === "pdf" ? ".png" : ""}`;
             return (
               <div
                 key={`asset-${id}`}
@@ -131,7 +133,7 @@ const Assets = ({ title, description }: RouteProps) => {
                   />{" "}
                   {originalname}
                 </a>
-                <button onClick={() => handleDelete(id)}>Delete File</button>
+                <button onClick={handleDelete(id)}>Delete File</button>
               </div>
             );
           })}

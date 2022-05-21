@@ -12,6 +12,13 @@ type SizeMap = {
 
 type ImageSize = "small" | "detail" | "large" | "thumb";
 
+const sizes: SizeMap = {
+  small: 480,
+  detail: 800,
+  large: 1920,
+  thumb: 160,
+};
+
 /**
  *
  * @param width width of original image
@@ -49,12 +56,6 @@ export const getExtensionFromMimetype = (mimetype: string) => {
 };
 
 export const createResizedImage = async (filename: string, size: ImageSize) => {
-  const sizes: SizeMap = {
-    small: 480,
-    detail: 800,
-    large: 1920,
-    thumb: 240,
-  };
   const dest = "./uploads/";
   const buffer = sharp(`${dest}/${filename}`);
   const { width, height, hasAlpha } = await buffer.metadata();
@@ -73,16 +74,16 @@ export const createResizedImage = async (filename: string, size: ImageSize) => {
 
 export const createPDFThumbnail = async (filename: string) => {
   const thumb = new Promise((resolve, reject) => {
-    gm(`./uploads/${filename}`).thumb(
-      240,
-      240,
-      `./uploads/thumb/${filename}.jpg`,
-      80,
-      (error, stdout, stderr, command) => {
-        if (!error) resolve(command);
-        else reject(error);
-      },
-    );
+    gm(`./uploads/${filename}`)
+      .setFormat("png")
+      .resize(sizes["thumb"], sizes["thumb"])
+      .write(
+        `./uploads/thumb/${filename}.png`,
+        (error, stdout, stderr, command) => {
+          if (!error) resolve(command);
+          else reject(error);
+        },
+      );
   });
   await thumb;
 };

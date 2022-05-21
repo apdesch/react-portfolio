@@ -1,6 +1,8 @@
-import mongoose, { Schema, Model, ObjectId } from "mongoose";
+import type { Model, ObjectId } from "mongoose";
+import mongoose from "mongoose";
 
 export interface AssetDocument {
+  id: string;
   filename: string;
   originalname: string;
   path: string;
@@ -10,11 +12,10 @@ export interface AssetDocument {
   title: string;
   description: string;
   altText: string;
-  username: string;
   userId: ObjectId;
 }
 
-const AssetSchema: Schema<AssetDocument> = new Schema({
+const AssetSchema: mongoose.Schema<AssetDocument> = new mongoose.Schema({
   filename: {
     type: String,
     required: true,
@@ -48,12 +49,8 @@ const AssetSchema: Schema<AssetDocument> = new Schema({
   altText: {
     type: String,
   },
-  username: {
-    type: String,
-    required: true,
-  },
   userId: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     select: false,
   },

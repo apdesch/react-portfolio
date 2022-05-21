@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction } from "express";
+import type { Response, Request, NextFunction } from "express";
 import User, { UserDocument } from "../models/User.model";
 import ErrorResponse from "../utils/ErrorResponse";
 

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Model } from "mongoose";
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import { duplicateCollectionItem } from "../utils/validation";
 
@@ -19,7 +19,7 @@ export interface UserDocument extends IUser {
   getSignedToken: () => {};
 }
 
-const UserSchema: Schema<UserDocument> = new Schema({
+const UserSchema: mongoose.Schema<UserDocument> = new mongoose.Schema({
   username: {
     type: String,
     required: [true, "Username is required"],
@@ -72,7 +72,7 @@ UserSchema.methods.checkPasswordMatch = async function (
   return result;
 };
 
-const User: Model<UserDocument> = mongoose.model<UserDocument>(
+const User: mongoose.Model<UserDocument> = mongoose.model<UserDocument>(
   "User",
   UserSchema,
 );

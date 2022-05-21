@@ -1,13 +1,8 @@
-import { Response, Request, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import ErrorResponse from "../utils/ErrorResponse";
 
-const errorHandler = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const errorHandler = (err: any, res: Response, next: NextFunction) => {
   let error = err;
   error.message = err.message;
 

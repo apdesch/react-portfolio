@@ -1,5 +1,5 @@
-import fs, { rename } from "fs/promises";
-import { Response, Request, NextFunction } from "express";
+import { rename, unlink } from "fs/promises";
+import type { Response, Request, NextFunction } from "express";
 import ErrorResponse from "../utils/ErrorResponse";
 import { getDateString } from "../utils/date";
 import {
@@ -7,22 +7,25 @@ import {
   createResizedImage,
   createPDFThumbnail,
 } from "../utils/image";
-import Asset from "../models/Asset.model";
+import Asset, { AssetDocument } from "../models/Asset.model";
 import User from "../models/User.model";
 
-interface UploadAsset extends Request {
-  ext: string;
-  created: string;
-}
+type FindMethod = "one" | "update" | "delete";
 
-interface File {
-  filename: string;
-  originalname: string;
-  path: string;
-  ext: string;
-  created: string;
-  mimetype: string;
-}
+const findAssets = async (req: Request, method?: FindMethod) => {
+  const user = await User.findById(req.session.userId);
+  const query = user ? { userId: req.session.userId } : {};
+  switch (method) {
+    case "one":
+      return await Asset.findOne(query);
+    case "update":
+      return await Asset.findOneAndUpdate(query);
+    case "delete":
+      return await Asset.findOneAndDelete(query);
+    default:
+      return await Asset.find(query);
+  }
+};
 
 const AssetsController = {
   process: async (req: Request, res: Response, next: NextFunction) => {
@@ -35,7 +38,7 @@ const AssetsController = {
       "";
     const renamedFile = `${req.file.filename}-${dateString}.${ext}`;
 
-    await fs.rename(req.file.path, `./uploads/${renamedFile}`);
+    await rename(req.file.path, `./uploads/${renamedFile}`);
 
     if (req.file.mimetype.includes("image/")) {
       await createResizedImage(renamedFile, "thumb");
@@ -70,42 +73,58 @@ const AssetsController = {
         ext,
         mimetype,
         created,
-        username: req.session.user?.username,
+        userId: req.session.userId,
       });
       return res.json({ message: "File uploaded", path });
     } catch (error) {
       return error;
     }
   },
-  read: async (req: Request, res: Response) => {
+  read: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.findById(req.session.userId);
-      const query = user ? { username: req.session.user?.username } : {};
-      const assets = await Asset.find(query);
+      const assets = await Asset.find({ userId: req.session.userId });
+      if (!assets) return next(new ErrorResponse("File doesn't exist", 404));
       return res.json(assets);
     } catch (error) {
       return error;
     }
   },
-  readOne: async () => {},
-  update: async () => {},
-  delete: async (req: Request, res: Response) => {
+  readOne: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const asset = await Asset.findById(req.params.id);
+      const asset = await findAssets(req, "one");
+      if (!asset) return next(new ErrorResponse("File doesn't exist", 404));
+      return res.json(asset);
+    } catch (error) {
+      return error;
+    }
+  },
+  update: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const asset = await findAssets(req, "update");
+      if (!asset) return next(new ErrorResponse("File doesn't exist", 404));
+      return res.json(asset);
+    } catch (error) {
+      return error;
+    }
+  },
+  delete: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const asset = (await findAssets(req, "delete")) as AssetDocument;
 
       if (!asset) throw Error("Asset doesn't exist.");
 
       const document = await Asset.findByIdAndDelete(req.params.id);
+
       if (document) {
         if (asset.mimetype.includes("image/")) {
-          await fs.unlink(`./uploads/thumb/${asset.filename}`);
-          await fs.unlink(`./uploads/small/${asset.filename}`);
-          await fs.unlink(`./uploads/large/${asset.filename}`);
+          await unlink(`./uploads/thumb/${asset.filename}`);
+          await unlink(`./uploads/small/${asset.filename}`);
+          await unlink(`./uploads/large/${asset.filename}`);
         }
         if (asset.mimetype.includes("pdf")) {
-          await fs.unlink(`./uploads/thumb/${asset.filename}.jpg`);
+          await unlink(`./uploads/thumb/${asset.filename}.png`);
         }
-        await fs.unlink(`./uploads/${asset.filename}`);
+        await unlink(`./uploads/${asset.filename}`);
       }
 
       return res.json({ message: `File ${req.params.id} deleted` });

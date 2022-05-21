@@ -3,6 +3,7 @@ import { AppState, AppAction } from "reducers/types";
 
 const initialState: AppState = {
   auth: { loggedIn: false, user: null },
+  project: { projects: [] },
 };
 
 type ContextType<ActionType> = {

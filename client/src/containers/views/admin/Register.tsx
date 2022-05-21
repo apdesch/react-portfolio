@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Head, { RouteProps } from "components/Head";
@@ -19,10 +19,9 @@ const Register = ({ title }: RouteProps) => {
         username,
         password,
       });
-      console.log(data);
       navigate("/admin");
     } catch (error) {
-      setError((error as Error).message);
+      setError((error as AxiosError).response?.data?.error);
     }
   };
 
@@ -53,7 +52,7 @@ const Register = ({ title }: RouteProps) => {
       <h1>Create Account</h1>
       <form onSubmit={handleRegistration}>
         {fields.map((field, index) => (
-          <>
+          <React.Fragment key={field.label}>
             {!!index && <br />}
             <label>
               {field.label}{" "}
@@ -63,7 +62,7 @@ const Register = ({ title }: RouteProps) => {
                 onChange={(event) => field.onchange(event.target.value)}
               />
             </label>
-          </>
+          </React.Fragment>
         ))}
         {error && <div>{error}</div>}
         <button type="submit">Register</button>

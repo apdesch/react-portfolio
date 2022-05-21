@@ -1,14 +1,15 @@
 import React from "react";
 import type { RouteObject } from "react-router-dom";
 import PrivateRoutes from "routes/PrivateRoutes";
-import AdminLayout from "containers/layouts/AdminLayout";
+import AdminLayout from "containers/layouts/AdminLayout/AdminLayout";
 import PublicLayout from "containers/layouts/PublicLayout";
-import NotFound from "containers/views/NotFound";
+import NotFound from "containers/views/NotFound/NotFound";
 import Home from "containers/views/Home";
 import Portfolio from "containers/views/Portfolio";
 import Dashboard from "containers/views/admin/Dashboard";
 import Assets from "containers/views/admin/Assets";
 import Register from "containers/views/admin/Register";
+import Projects from "containers/views/admin/Projects";
 
 const routes: RouteObject[] = [
   {
@@ -32,6 +33,7 @@ const routes: RouteObject[] = [
         children: [
           { index: true, element: <Dashboard title="Dashboard" /> },
           { path: "/admin/assets", element: <Assets title="File Bin" /> },
+          { path: "/admin/projects", element: <Projects title="Projects" /> },
         ],
       },
     ],

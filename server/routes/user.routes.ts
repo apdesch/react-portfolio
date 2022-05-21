@@ -5,7 +5,7 @@ import { auth } from "../middleware/auth";
 const userRouter = Router();
 
 userRouter
-  .post("/", UserController.create)
+  .post("/", auth, UserController.create)
   .get("/", auth, UserController.read)
   .put("/", auth, UserController.update)
   .delete("/", auth, UserController.delete)

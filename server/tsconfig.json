@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["esnext"]
+    "lib": ["esnext"],
+    "module": "esnext",
+    "target": "esnext"
   },
   "extends": "../config/tsconfig.json",
   "exclude": ["../client"]

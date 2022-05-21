@@ -5,6 +5,7 @@ import type { RouteProps } from "components/Head";
 import Head from "components/Head";
 import axios, { AxiosError } from "axios";
 import { User } from "reducers/types";
+import FormField from "components/FormField";
 
 interface AuthResponse {
   auth: boolean;
@@ -40,28 +41,13 @@ const SignIn = ({ title, description }: RouteProps) => {
     <>
       <Head title={title} description={description} />
       <h1>Sign In</h1>
-      <div>
-        <label>
-          Email:{" "}
-          <input
-            type="email"
-            required
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </label>
-      </div>
-      <br />
-      <div>
-        <label>
-          Password:{" "}
-          <input
-            type="password"
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <br />
+      <FormField type="text" name="email" label="Email" onChange={setEmail} />
+      <FormField
+        type="password"
+        name="password"
+        label="Password"
+        onChange={setPassword}
+      />
       {state.auth.error && <strong>{state.auth.error}</strong>}
       <br />
       <button type="button" onClick={loginHandler}>

@@ -19,7 +19,9 @@ const Dashboard = ({ title, description }: RouteProps) => {
       <Head title={title} description={description} />
       <h1>Dashboard</h1>
       <Link to="/admin/assets">Assets</Link>
-      <h4>Welcome {state.auth.user.username}</h4>
+      {" | "}
+      <Link to="/admin/projects">Projects</Link>
+      <h4>Welcome {state.auth.user ? state.auth.user.username : "User"}</h4>
       <button type="button" onClick={logoutHandler}>
         Sign Out
       </button>
