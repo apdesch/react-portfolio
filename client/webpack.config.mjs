@@ -41,8 +41,13 @@ export default {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|svg|jpe?g|gif|woff2?|ttf|eot)$/i,
+        test: /\.(png|jpe?g|gif|woff2?|ttf|eot)$/i,
         type: "asset/resource",
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        use: ["@svgr/webpack", "url-loader"],
       },
     ],
   },
