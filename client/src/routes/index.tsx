@@ -34,6 +34,10 @@ const routes: RouteObject[] = [
           { index: true, element: <Dashboard title="Dashboard" /> },
           { path: "/admin/assets", element: <Assets title="File Bin" /> },
           { path: "/admin/projects", element: <Projects title="Projects" /> },
+          {
+            path: "/admin/projects/:id",
+            element: <Projects title="Projects" />,
+          },
         ],
       },
     ],

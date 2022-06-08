@@ -117,7 +117,7 @@ const Assets = ({ title, description }: RouteProps) => {
                 <a
                   href={
                     mimetype.includes("image/")
-                      ? `/uploads/large/${filename}`
+                      ? `/uploads/small/${filename}`
                       : `/uploads/${filename}`
                   }
                   target="_blank"

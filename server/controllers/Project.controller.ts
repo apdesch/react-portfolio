@@ -38,7 +38,7 @@ const ProjectController = {
       });
       return res.json({ message: "project created" });
     } catch (error) {
-      return next(new ErrorResponse("An error occured.", 500));
+      return next(new ErrorResponse("An error occurred.", 500));
     }
   },
   read: async (req: Request, res: Response, next: NextFunction) => {
@@ -46,7 +46,7 @@ const ProjectController = {
       const projects = await Project.find();
       return res.json(projects);
     } catch (error) {
-      return next(new ErrorResponse("An error occured.", 500));
+      return next(new ErrorResponse("An error occurred.", 500));
     }
   },
   readOne: async (req: Request, res: Response, next: NextFunction) => {
@@ -54,15 +54,16 @@ const ProjectController = {
       const project = await Project.findById(req.params.id);
       return res.json(project);
     } catch (error) {
-      return next(new ErrorResponse("An error occured.", 500));
+      return next(new ErrorResponse("An error occurred.", 500));
     }
   },
   update: async (req: Request, res: Response, next: NextFunction) => {
+    console.log("update");
     try {
       await Project.findByIdAndUpdate(req.params.id, req.body);
       return res.json({ message: `Project ${req.params.id} updated.` });
     } catch (error) {
-      return next(new ErrorResponse("An error occured.", 500));
+      return next(new ErrorResponse("An error occurred.", 500));
     }
   },
   delete: async (req: Request, res: Response, next: NextFunction) => {
@@ -70,7 +71,7 @@ const ProjectController = {
       await Project.findByIdAndDelete(req.params.id);
       return res.json({ message: `Project ${req.params.id} updated.` });
     } catch (error) {
-      return next(new ErrorResponse("An error occured.", 500));
+      return next(new ErrorResponse("An error occurred.", 500));
     }
   },
 };

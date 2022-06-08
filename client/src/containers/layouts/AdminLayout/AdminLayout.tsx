@@ -4,19 +4,16 @@ import GlobalHeader from "components/GlobalHeader";
 import styled from "styled-components";
 
 const Layout = styled.div`
-  background-color: #6f6f6f;
   height: 100%;
-  color: #ffffff;
-  overflow: auto;
-  input {
-    background-color: #5f5f5f;
+  overflow-y: scroll;
+  background: #121212;
+  input,
+  select {
     border: none;
     border-radius: 4px;
     width: 100%;
     max-width: 500px;
     height: 36px;
-    color: #ffffff;
-    margin-bottom: 20px;
   }
 `;
 

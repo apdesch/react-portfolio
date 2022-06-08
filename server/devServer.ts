@@ -1,4 +1,5 @@
 import { config } from "dotenv";
+import os from "os";
 import chalk from "chalk";
 import morgan from "morgan";
 import connectDB from "./config/db";
@@ -16,12 +17,16 @@ if (isDevelopment) app.use(morgan(":method :url :status - :response-time ms"));
 
 app.use(errorHandler);
 
+const network = os.networkInterfaces();
+const ip = network?.en0;
+
 const server = app.listen(port, (): void => {
   process.stdout.write("\x1Bc");
   console.debug(
     chalk.green.bold`Server running at`,
     chalk.cyan`http://localhost:${port}`,
   );
+  console.info(chalk.cyan`\nhttp://:${ip ? ip[1].address : "0.0.0.0"}:${port}`);
 });
 
 process.on("SIGINT", (): void => {

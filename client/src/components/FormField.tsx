@@ -1,27 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useEditor, EditorContent, CommandProps } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import {
-  BiBold,
-  BiItalic,
-  BiUnderline,
-  BiHeading,
-  BiParagraph,
-  BiCode,
-  BiCodeBlock,
-  BiListUl,
-  BiListOl,
-  BiAlignLeft,
-  BiAlignMiddle,
-  BiAlignRight,
-  BiAlignJustify,
-  BiBlock,
-  BiImage,
-} from "react-icons/bi";
 
 interface SelectOption {
   value: string;
@@ -35,10 +13,12 @@ interface FieldProps {
   placeholder?: string;
   options?: SelectOption[];
   onChange?: Function;
+  defaultValue?: any;
 }
 
-const FormRow = styled.div`
+export const FormRow = styled.div`
   display: flex;
+  margin-bottom: 20px;
   label {
     width: 140px;
     text-align: right;
@@ -47,7 +27,7 @@ const FormRow = styled.div`
   .ctrl-bar {
     display: flex;
     padding: 0 10px;
-    background-color: #5f5f5f;
+    background-color: #3b3b3b;
     border-radius: 4px 4px 0 0;
     button {
       display: flex;
@@ -65,157 +45,23 @@ const FormRow = styled.div`
   .ProseMirror {
     padding: 16px;
     width: 100%;
-    min-height: 150px;
+    max-width: 532px;
+    min-height: 300px;
     overflow: auto;
     background-color: #ffffff;
     color: #121212;
+    p {
+      margin-top: 0;
+    }
+    img {
+      max-width: 100%;
+    }
+    a {
+      color: #1a6cb3;
+      text-decoration: underline;
+    }
   }
 `;
-
-const EditorNav: React.FC<CommandProps | { editor: any }> = ({ editor }) => {
-  if (!editor) return null;
-
-  const addImage = () => {
-    const url = window.prompt("URL");
-    if (url) {
-      editor?.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
-  return (
-    <nav id="ctrlbar" className="ctrl-bar">
-      <button
-        title="Bold"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleBold().run();
-        }}
-      >
-        <BiBold />
-      </button>
-      <button
-        title="Italic"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleItalic().run();
-        }}
-      >
-        <BiItalic />
-      </button>
-      <button
-        title="Underline"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleUnderline().run();
-        }}
-      >
-        <BiUnderline />
-      </button>
-      <button
-        title="Heading"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleHeading({ level: 2 }).run();
-        }}
-      >
-        <BiHeading />
-      </button>
-      <button
-        title="Paragraph"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().setParagraph().run();
-        }}
-      >
-        <BiParagraph />
-      </button>
-      <button
-        title="Code"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleCode().run();
-        }}
-      >
-        <BiCode />
-      </button>
-      <button
-        title="Code Block"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleCodeBlock().run();
-        }}
-      >
-        <BiCodeBlock />
-      </button>
-      <button
-        title="Bullet List"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleBulletList().run();
-        }}
-      >
-        <BiListUl />
-      </button>
-      <button
-        title="Numbered List"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().toggleOrderedList().run();
-        }}
-      >
-        <BiListOl />
-      </button>
-      <button
-        title="Align Left"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().setTextAlign("left").run();
-        }}
-      >
-        <BiAlignLeft />
-      </button>
-      <button
-        title="Align Center"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().setTextAlign("center").run();
-        }}
-      >
-        <BiAlignMiddle />
-      </button>
-      <button
-        title="Align Right"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().setTextAlign("right").run();
-        }}
-      >
-        <BiAlignRight />
-      </button>
-      <button
-        title="Align Justify"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().setTextAlign("justify").run();
-        }}
-      >
-        <BiAlignJustify />
-      </button>
-      <button
-        title="Remove Formating"
-        onClick={(event) => {
-          event.preventDefault();
-          editor.chain().focus().clearNodes().run();
-        }}
-      >
-        <BiBlock />
-      </button>
-      <button title="Add Image" onClick={addImage}>
-        <BiImage />
-      </button>
-    </nav>
-  );
-};
 
 const Field: React.FC<FieldProps> = ({
   type,
@@ -223,25 +69,21 @@ const Field: React.FC<FieldProps> = ({
   placeholder,
   options,
   onChange,
+  defaultValue,
 }) => {
-  const editor = useEditor({
-    extensions: [StarterKit, Image, Underline, TextAlign],
-    content: "<p>Hello World!</p>",
-  });
-
   switch (type) {
-    case "editor":
-      return (
-        <div>
-          <EditorNav editor={editor} />
-          <EditorContent editor={editor} />
-        </div>
-      );
     case "textarea":
-      return <textarea name={name} placeholder={placeholder} />;
+      return (
+        <textarea
+          name={name}
+          placeholder={placeholder}
+          onChange={(event) => onChange?.(event.target.value)}
+          defaultValue={defaultValue}
+        />
+      );
     case "select":
       return (
-        <select name={name}>
+        <select name={name} defaultValue={defaultValue}>
           {options?.map(({ value, label }) => (
             <option key={value} value={value}>
               {label}
@@ -256,6 +98,7 @@ const Field: React.FC<FieldProps> = ({
           name={name}
           placeholder={placeholder}
           onChange={(event) => onChange?.(event.target.value)}
+          defaultValue={defaultValue}
         />
       );
   }
@@ -268,6 +111,7 @@ const FormField: React.FC<FieldProps> = ({
   placeholder,
   options,
   onChange,
+  defaultValue,
 }) => (
   <FormRow>
     <label htmlFor={name}>{label}</label>
@@ -277,6 +121,7 @@ const FormField: React.FC<FieldProps> = ({
       placeholder={placeholder}
       options={options}
       onChange={onChange}
+      defaultValue={defaultValue}
     />
   </FormRow>
 );
