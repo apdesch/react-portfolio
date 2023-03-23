@@ -21,7 +21,7 @@ const Register = ({ title }: RouteProps) => {
       });
       navigate("/admin");
     } catch (error) {
-      setError((error as AxiosError).response?.data?.error);
+      setError(axios.isAxiosError(error) ? error.response?.data : error);
     }
   };
 

@@ -6,8 +6,7 @@ import Body from "./Body";
 import Title from "./Title";
 import Nav from "./Nav";
 import SocialLinks from "./SocialLinks";
-
-const cutout: string = require("static/images/cutout.svg");
+import cutout from "static/images/cutout.svg"
 
 const Home: React.FC<RouteProps> = ({ title, description }) => {
   const navLinks = [
@@ -35,7 +34,7 @@ const Home: React.FC<RouteProps> = ({ title, description }) => {
     <Body>
       <Head title={title} description={description} />
       <div className="col">
-        <img src={cutout} alt="cutout" className="cutout" />
+        {<img src={cutout} alt="cutout" className="cutout" />}
       </div>
       <div className="col">
         <Title />

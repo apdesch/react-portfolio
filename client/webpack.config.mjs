@@ -33,7 +33,7 @@ export default {
   },
   module: {
     rules: [
-      { test: /\.jsx?$/, use: "babel-loader", exclude: /node_modules/ },
+      { test: /\.jsx?$/, use: "swc-loader", exclude: /node_modules/ },
       { test: /\.tsx?$/, use: "ts-loader", exclude: /node_modules/ },
       {
         test: /\.css$/,
@@ -41,13 +41,8 @@ export default {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|jpe?g|gif|woff2?|ttf|eot)$/i,
+        test: /\.(png|jpe?g|gif|svg|woff2?|ttf|eot)$/i,
         type: "asset/resource",
-      },
-      {
-        test: /\.svg$/i,
-        issuer: /\.[jt]sx?$/,
-        use: ["@svgr/webpack", "url-loader"],
       },
     ],
   },

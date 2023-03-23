@@ -32,7 +32,7 @@ const SignIn = ({ title, description }: RouteProps) => {
       dispatch({ type: "LOGIN_SUCCESS", payload: data.user });
       navigate("/admin");
     } catch (error) {
-      const errorMessage = (error as AxiosError).response?.data?.error;
+      const errorMessage = axios.isAxiosError(error) ? error.response?.data : error;
       dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
     }
   };

@@ -78,7 +78,7 @@ const Projects = ({ title, description }: RouteProps) => {
       );
       if (data.message) setSubmitted(true);
     } catch (error) {
-      setErrorMessage((error as AxiosError).response?.data?.error);
+      setErrorMessage(axios.isAxiosError(error) ? error.response?.data : error);
     }
   };
 
