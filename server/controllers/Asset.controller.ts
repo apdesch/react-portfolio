@@ -12,6 +12,17 @@ import User from "../models/User.model";
 
 type FindMethod = "one" | "update" | "delete";
 
+declare global {
+  namespace Express {
+    namespace Multer {
+      interface File {
+        created?: string,
+        ext?: string,
+      }
+    }
+  }
+}
+
 const findAssets = async (req: Request, method?: FindMethod) => {
   const user = await User.findById(req.session.userId);
   const query = user ? { userId: req.session.userId } : {};

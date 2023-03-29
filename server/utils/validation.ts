@@ -6,7 +6,7 @@ const duplicateCollectionItem = async <ModelType, ItemType>(
   message?: string,
 ) => {
   try {
-    const result = await model.findOne(item);
+    const result = await model.findOne(item || {});
     if (result) throw new Error(message || "{VALUE} is a duplicate entry");
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);

@@ -18,15 +18,15 @@ if (isDevelopment) app.use(morgan(":method :url :status - :response-time ms"));
 app.use(errorHandler);
 
 const network = os.networkInterfaces();
-const ip = network?.en0;
+const ip = network?.eth0;
 
 const server = app.listen(port, (): void => {
   process.stdout.write("\x1Bc");
   console.debug(
     chalk.green.bold`Server running at`,
-    chalk.cyan`http://localhost:${port}`,
+    chalk.cyan(`http://localhost:${port}`),
   );
-  console.info(chalk.cyan`\nhttp://:${ip ? ip[1].address : "0.0.0.0"}:${port}`);
+  console.info(chalk.cyan(`\nhttp://${ip ? ip[0].address : "0.0.0.0"}:${port}`));
 });
 
 process.on("SIGINT", (): void => {

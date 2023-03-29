@@ -12,7 +12,7 @@ const dbURI = isDevelopment ? localDB : atlusDB;
 const connectDB = async () => {
   await mongoose.connect(dbURI);
   const which = isDevelopment ? "local" : "atlus";
-  console.debug(chalk.green.bold`Connected to ${which} database\n`);
+  console.debug(chalk.green.bold(`Connected to ${which} database\n`));
 };
 
 export default connectDB;

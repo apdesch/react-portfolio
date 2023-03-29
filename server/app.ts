@@ -14,14 +14,22 @@ const SESSION_SECRET = process.env.SESSION_SECRET || "";
 const SESSION_MAX_AGE = parseInt(process.env.SESSION_MAX_AGE || "") || 0;
 const app = express();
 
-const Store = connectRedis(session);
-const client = createClient({ legacyMode: true });
+const client = createClient();
 
-client.on("error", (error) => console.error("Redis Client Error", error));
+client.on("error", (error) => {
+  console.error("Redis Client Error", error);
+  process.exit(1)
+});
+
+await client.connect();
+
+const Store = new connectRedis({
+  client,
+});
 
 const sessionConfig = {
   secret: SESSION_SECRET,
-  store: new Store({ client }),
+  store: Store,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -55,11 +63,5 @@ app
     express.static(dirname(fileURLToPath(import.meta.url)) + "/uploads"),
   )
   .use((req, res) => res.json({ error: "not a valid route" }));
-
-try {
-  await client.connect();
-} catch (error) {
-  console.error("Redis Error:", error);
-}
 
 export default app;

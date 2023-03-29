@@ -1,9 +1,19 @@
 {
   "compilerOptions": {
-    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "lib": [
+      "esnext"
+    ],
     "module": "esnext",
     "target": "esnext"
   },
   "extends": "../config/tsconfig.json",
-  "exclude": ["../client"]
+  "exclude": [
+    "../client"
+  ],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+  }
 }
