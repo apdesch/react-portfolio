@@ -2,5 +2,11 @@
 
 Personal portfolio MERN application.
 
-Features: Database, API, file upload and image processing.
+Features:
+- mongodb
+- redis
+- REST API
+- file upload
+- image processing
+- admin area with user authentication
 
