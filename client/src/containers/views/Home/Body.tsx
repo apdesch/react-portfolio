@@ -1,12 +1,6 @@
 import styled from "styled-components";
 
 const Body = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 1080px;
-  margin: auto;
   h1,
   h2 {
     text-transform: uppercase;

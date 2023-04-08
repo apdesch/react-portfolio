@@ -1,11 +1,17 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import bgImg from "static/images/alta-plaza.png";
 
 const App = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100%;
   background-color: var(--color-primary-dark);
+  background-image: url(${bgImg});
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--color-primary-light);
   font-family: "Poppins", sans-serif;
   font-weight: 400;

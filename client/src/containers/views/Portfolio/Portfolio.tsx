@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import type { RouteProps } from "components/Head";
 import type { Project } from "reducers/types";
 import Head from "components/Head";
@@ -10,11 +10,21 @@ import axios from "axios";
 
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
   const { state, dispatch } = useContext(AppContext);
+  const [error, setError] = useState("");
+  const navLinks = [
+    { path: "/portfolio", label: "Portfolio" },
+    { path: "/resume", label: "Resume" },
+    { path: "/about", label: "About" },
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get<Project[]>("/api/projects");
-      dispatch({ type: "PROJECT_SUCCESS", payload: data });
+      try {
+        const { data } = await axios.get<Project[]>("/api/projects");
+        dispatch({ type: "PROJECT_SUCCESS", payload: data });
+      } catch (error) {
+        if (error instanceof Error) setError(error.message);
+      }
     };
     fetchData();
   }, []);
@@ -22,9 +32,9 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
   console.log(state.project.projects);
 
   return (
-    <div>
+    <>
       <Head title={title} description={description} />
-      <GlobalHeader title="Adam Deschamp" to="/" admin={false} />
+      <GlobalHeader title="Adam Deschamp" to="/" admin={false} nav={navLinks} />
       <aside>
         <h2>Work</h2>
         <p>
@@ -33,12 +43,13 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
         </p>
       </aside>
       <main>
-        {state.project.projects && (
+        {!error && state.project.projects && (
           <ProjectsList projects={state.project.projects} />
         )}
+        {error && <div>{error}</div>}
         <ButtonLink to="/resume">View Full Resume</ButtonLink>
       </main>
-    </div>
+    </>
   );
 };
 

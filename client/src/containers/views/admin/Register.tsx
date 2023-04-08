@@ -1,5 +1,5 @@
 import React from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Head, { RouteProps } from "components/Head";
@@ -14,14 +14,14 @@ const Register = ({ title }: RouteProps) => {
   const handleRegistration = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post("/api/user", {
+      await axios.post("/api/user", {
         email,
         username,
         password,
       });
       navigate("/admin");
     } catch (error) {
-      setError(axios.isAxiosError(error) ? error.response?.data : error);
+      if (error instanceof Error) setError(error.message);
     }
   };
 

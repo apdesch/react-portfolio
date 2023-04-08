@@ -3,16 +3,19 @@ import { FaAngellist, FaGithub, FaLinkedin } from "react-icons/fa";
 import type { RouteProps } from "components/Head";
 import Head from "components/Head";
 import Body from "./Body";
+import GlobalHeader from "components/GlobalHeader";
 import Title from "./Title";
 import Nav from "./Nav";
 import SocialLinks from "./SocialLinks";
-import cutout from "static/images/cutout.svg"
+import cutout from "static/images/cutout.svg";
 
 const Home: React.FC<RouteProps> = ({ title, description }) => {
   const navLinks = [
-    { url: "/portfolio", label: "Portfolio" },
-    { url: "/resume", label: "Resume" },
+    { path: "/portfolio", label: "Portfolio" },
+    { path: "/resume", label: "Resume" },
+    { path: "/about", label: "About" },
   ];
+
   const socialLinks = [
     {
       url: "https://github.com/apdesch",
@@ -33,14 +36,12 @@ const Home: React.FC<RouteProps> = ({ title, description }) => {
   return (
     <Body>
       <Head title={title} description={description} />
-      <div className="col">
-        {<img src={cutout} alt="cutout" className="cutout" />}
-      </div>
-      <div className="col">
+      <GlobalHeader title="Adam Deschamp" to="/" admin={false} nav={navLinks} />
+      {/* <div className="col">
         <Title />
         <Nav links={navLinks} />
         <SocialLinks links={socialLinks} />
-      </div>
+      </div> */}
     </Body>
   );
 };
