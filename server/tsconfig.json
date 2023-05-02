@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "lib": [
-      "esnext"
-    ],
+    "target": "esnext",
+    "lib": ["esnext"],
+    "outDir": "dist",
+    "sourceMap": false,
     "module": "esnext",
-    "target": "esnext"
+    "moduleResolution": "node",
+    "baseUrl": ".",
   },
   "extends": "../config/tsconfig.json",
-  "exclude": [
-    "../client"
-  ],
+  "exclude": ["../client"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node",

@@ -1,13 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "clean": "npm run rm:api && npm run rm:client",
+    "postinstall": "npm i --prefix server && npm i --prefix client",
     "rm:api": "rm -rf ./server/dist",
     "rm:client": "rm -rf ./client/public",
-    "build:api": "npm run rm:api && tsc -p ./server/tsconfig.json",
-    "build:client": "npm run rm:client && webpack --config ./client/webpack.config.mjs",
+    "rm:modules": "rm -rf node_modules/ server/node_modules/ client/node_modules/",
+    "build:api": "npm run rm:api && npm run build --prefix server",
+    "build:client": "npm run rm:client && npm run build --prefix client",
     "api": "ts-node server",
-    "deploy": "sh deploy.sh"
+    "deploy": "sh deploy.sh",
+    "clean": "npm run rm:api && npm run rm:client",
+    "wipe": "npm run clean && npm run rm:modules",
   },
   "dependencies": {
     "chalk": "^5.0.1",

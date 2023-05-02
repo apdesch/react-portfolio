@@ -5,8 +5,6 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "allowJs": true,
-    "sourceMap": true,
-    "outDir": "./dist",
     "removeComments": true,
     "newLine": "lf",
     "esModuleInterop": true,
