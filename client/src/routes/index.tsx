@@ -6,6 +6,7 @@ import PublicLayout from "containers/layouts/PublicLayout";
 import NotFound from "containers/views/NotFound/NotFound";
 import Portfolio from "containers/views/Portfolio";
 import Resume from "containers/views/Resume";
+import About from "containers/views/About";
 import Dashboard from "containers/views/admin/Dashboard";
 import Assets from "containers/views/admin/Assets";
 import Register from "containers/views/admin/Register";
@@ -18,6 +19,7 @@ const routes: RouteObject[] = [
     children: [
       { index: true, element: <Portfolio title="Portfolio" /> },
       { path: "/resume", element: <Resume title="Resume" /> },
+      { path: "/about", element: <About title="About" /> },
     ],
   },
   {

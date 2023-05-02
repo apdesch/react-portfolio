@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import type { RouteProps } from "components/Head";
 import Head from "components/Head";
 import Page from "components/Page";
-import { AppContext } from "contexts/App.context";
-import axios from "axios";
+// import { AppContext } from "contexts/App.context";
+// import axios from "axios";
 import styled from "styled-components";
 
 const Post = styled.div`
@@ -21,28 +21,28 @@ const Post = styled.div`
 `;
 
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
-  const { state, dispatch } = useContext(AppContext);
-  const [error, setError] = useState("");
+  // const { state, dispatch } = useContext(AppContext);
+  // const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (state.resume) return;
-      try {
-        const { data } = await axios.get("/api/resume");
-        dispatch({ type: "RESUME_SUCCESS", payload: data });
-      } catch (error) {
-        if (error instanceof Error) setError(error.message);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (state.resume) return;
+  //     try {
+  //       const { data } = await axios.get("/api/resume");
+  //       dispatch({ type: "RESUME_SUCCESS", payload: data });
+  //     } catch (error) {
+  //       if (error instanceof Error) setError(error.message);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <>
       <Head title={title} description={description} />
       <Page>
         <article>
-          <h1>Resume</h1>
+          <h1>Engineering Resume</h1>
           <Post>
             <section>
               <h2>Kapwing</h2>
@@ -135,7 +135,7 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
             </section>
           </Post>
         </article>
-        {error && <div>{error}</div>}
+        {/* {error && <div>{error}</div>} */}
       </Page>
     </>
   );

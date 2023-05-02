@@ -105,8 +105,8 @@ const PublicLayout: React.FC = (): JSX.Element => {
         <Title title="apdesch" />
         <GlobalNav>
           {[
-            { path: "/", label: "Home" },
-            { path: "/blog", label: "Blog" },
+            // { path: "/", label: "Home" },
+            // { path: "/blog", label: "Blog" },
             { path: "/resume", label: "Resume" },
             { path: "/about", label: "About" },
           ].map((props, index) => {
