@@ -10,7 +10,7 @@
     "api": "ts-node server",
     "deploy": "sh deploy.sh",
     "clean": "npm run rm:api && npm run rm:client",
-    "wipe": "npm run clean && npm run rm:modules",
+    "wipe": "npm run clean && npm run rm:modules"
   },
   "dependencies": {
     "chalk": "^5.0.1",
