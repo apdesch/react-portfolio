@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "rm:logs": "rm -rf logs",
-    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm ./devServer.ts"
+    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm ./devServer.ts",
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "@ffmpeg/core": "^0.11.0",
