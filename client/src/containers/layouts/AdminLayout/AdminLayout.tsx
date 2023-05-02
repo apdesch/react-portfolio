@@ -6,7 +6,7 @@ import styled from "styled-components";
 const Layout = styled.div`
   height: 100%;
   overflow-y: scroll;
-  background: #121212;
+  background: var(--color-primary-light);
   input,
   select {
     border: none;
@@ -17,11 +17,17 @@ const Layout = styled.div`
   }
 `;
 
+const Body = styled.div`
+  padding: 1rem;
+`;
+
 const AdminLayout: React.FC = (): JSX.Element => (
   <Layout>
     <GlobalHeader to="/admin" title="Admin" admin />
-    <Link to="/">Home</Link>
-    <Outlet />
+    <Body>
+      <Link to="/">Home</Link>
+      <Outlet />
+    </Body>
   </Layout>
 );
 

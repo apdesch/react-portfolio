@@ -66,6 +66,7 @@ export type Post = {
 interface AppState {
   auth: AuthState;
   project: ProjectState;
+  resume?: string;
 }
 
 type AppAction = Reducer;

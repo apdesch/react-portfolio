@@ -7,6 +7,7 @@ import {
   createResizedImage,
   createPDFThumbnail,
 } from "../utils/image";
+import { transcodeVideo } from "../utils/video";
 import Asset, { AssetDocument } from "../models/Asset.model";
 import User from "../models/User.model";
 
@@ -59,6 +60,10 @@ const AssetsController = {
 
     if (req.file.mimetype === "application/pdf") {
       await createPDFThumbnail(renamedFile);
+    }
+
+    if (req.file.mimetype.includes("video")) {
+      await transcodeVideo(renamedFile);
     }
 
     Object.assign(req.file, {

@@ -4,8 +4,8 @@ import PrivateRoutes from "routes/PrivateRoutes";
 import AdminLayout from "containers/layouts/AdminLayout/AdminLayout";
 import PublicLayout from "containers/layouts/PublicLayout";
 import NotFound from "containers/views/NotFound/NotFound";
-import Home from "containers/views/Home";
 import Portfolio from "containers/views/Portfolio";
+import Resume from "containers/views/Resume";
 import Dashboard from "containers/views/admin/Dashboard";
 import Assets from "containers/views/admin/Assets";
 import Register from "containers/views/admin/Register";
@@ -16,8 +16,8 @@ const routes: RouteObject[] = [
     path: "/",
     element: <PublicLayout />,
     children: [
-      { index: true, element: <Home title="Welcome" /> },
-      { path: "/portfolio", element: <Portfolio title="Portfolio" /> },
+      { index: true, element: <Portfolio title="Portfolio" /> },
+      { path: "/resume", element: <Resume title="Resume" /> },
     ],
   },
   {

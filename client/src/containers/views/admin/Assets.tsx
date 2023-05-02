@@ -63,7 +63,7 @@ const Assets = ({ title, description }: RouteProps) => {
   };
 
   const handleDelete = (id: string) => {
-    return async (event: FormEvent) => {
+    return async (event: FormEvent<HTMLButtonElement>) => {
       event.preventDefault();
       try {
         const { data } = await axios.delete<{ message: string }>(
@@ -75,6 +75,15 @@ const Assets = ({ title, description }: RouteProps) => {
       } catch (error) {
         console.error(error);
       }
+    };
+  };
+
+  const handleCopyToClipboard = (text: string) => {
+    return async (event: FormEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.currentTarget.textContent = "Copied!";
+      event.currentTarget.classList.add("copied");
+      await navigator.clipboard.writeText(text);
     };
   };
 
@@ -105,19 +114,16 @@ const Assets = ({ title, description }: RouteProps) => {
         <button type="submit">Upload File(s)</button>
         {uploadStatus === UploadStatus.UPLOADING && <div className="loader" />}
       </form>
-      <main>
+      <main style={{ columnGap: "1em", columnCount: 6 }}>
         {fileList &&
           fileList.map(({ id, filename, originalname, ext, mimetype }) => {
             const thumbURL = `${filename}${ext === "pdf" ? ".png" : ""}`;
             return (
-              <div
-                key={`asset-${id}`}
-                style={{ display: "block", marginTop: 10 }}
-              >
+              <figure key={`asset-${id}`}>
                 <a
                   href={
                     mimetype.includes("image/")
-                      ? `/uploads/small/${filename}`
+                      ? `/uploads/large/${filename}`
                       : `/uploads/${filename}`
                   }
                   target="_blank"
@@ -126,15 +132,20 @@ const Assets = ({ title, description }: RouteProps) => {
                   <img
                     src={
                       mimetype.includes("image") || mimetype.includes("pdf")
-                        ? `/uploads/thumb/${thumbURL}`
+                        ? `/uploads/${thumbURL}`
                         : "file.png"
                     }
                     className="thumb"
                   />{" "}
-                  {originalname}
                 </a>
-                <button onClick={handleDelete(id)}>Delete File</button>
-              </div>
+                {originalname}{" "}
+                <div style={{ display: "flex" }}>
+                  <button onClick={handleCopyToClipboard(filename)}>
+                    Copy file name
+                  </button>
+                  <button onClick={handleDelete(id)}>Delete File</button>
+                </div>
+              </figure>
             );
           })}
       </main>

@@ -10,7 +10,7 @@ const ProjectsList: React.FC<ProjectProps> = ({ projects }) => (
   <>
     {projects.map(({ id, title, description, image, alt, skills }) => {
       return (
-        <article key={id}>
+        <article key={id} className="project-item">
           <img
             className="thumbnail"
             src={getImageURL(image)}

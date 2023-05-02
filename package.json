@@ -1,9 +1,13 @@
 {
   "private": true,
   "scripts": {
-    "client": "npm start --prefix client",
-    "server": "npm start --prefix server",
-    "start": "npm run server & npm run client"
+    "clean": "npm run rm:api && npm run rm:client",
+    "rm:api": "rm -rf ./server/dist",
+    "rm:client": "rm -rf ./client/public",
+    "build:api": "npm run rm:api && tsc -p ./server/tsconfig.json",
+    "build:client": "npm run rm:client && webpack --config ./client/webpack.config.mjs",
+    "api": "ts-node server",
+    "deploy": "sh deploy.sh"
   },
   "dependencies": {
     "chalk": "^5.0.1",
