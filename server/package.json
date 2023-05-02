@@ -6,6 +6,8 @@
     "start": "node --experimental-specifier-resolution=node --loader ts-node/esm ./devServer.ts"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
     "bcrypt": "^5.0.1",
     "connect-redis": "^7.0.1",
     "cookie-parser": "^1.4.6",
