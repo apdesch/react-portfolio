@@ -7,6 +7,7 @@ import { AppContext } from "contexts/App.context";
 import ProjectsList from "./ProjectsList";
 import axios from "axios";
 import styled from "styled-components";
+import PageTitle from "components/PageTitle";
 
 const Description = styled.p`
   align-self: end;
@@ -37,20 +38,6 @@ const Grid = styled.div`
   column-count: 2;
 `;
 
-const Post = styled.div`
-  padding: 1.5em;
-
-  h2 {
-    position: relative;
-  }
-
-  @media screen and (prefers-color-scheme: dark) {
-    background-color: hsla(var(--c-hue), var(--c-sat), var(--c-lum), 0.5);
-    backdrop-filter: blur(40px);
-    border: none;
-  }
-`;
-
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
   const { state, dispatch } = useContext(AppContext);
   const [error, setError] = useState("");
@@ -71,47 +58,57 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
     <>
       <Head title={title} description={description} />
       <Page>
+        <PageTitle>Videos</PageTitle>
         <article>
           <Video>
-            <video />
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/4-ZZnb3-eOA"
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              frameBorder={0}
+            ></iframe>
+          </Video>
+          <Description>B-roll footage for coffee roaster spec ad.</Description>
+        </article>
+
+        <article>
+          <Video>
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/_ksmHf2Zd7Y"
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              frameBorder={0}
+            ></iframe>
           </Video>
           <Description>
             The Palace of Fine Arts in San Francisco shot on an iPhone.
           </Description>
         </article>
 
-        <article>
-          <Video>
-            <video />
-          </Video>
-          <Description>Footage of a local coffee roster.</Description>
-        </article>
-
-        <article>
-          <Video>
-            <video />
-          </Video>
-          <Description>A young girl creates a friend inside a box.</Description>
-        </article>
-
-        <article>
+        {/* <article>
           <h1>Illustrations</h1>
           <Grid>
-            <figure>{/* <img src={imgUrl} alt="image" /> */}</figure>
+            <figure>
+              <img src={imgUrl} alt="image" />
+            </figure>
           </Grid>
         </article>
 
         <article>
           <h1>Photographs</h1>
           <Grid>
-            <figure>{/* <img src={imgUrl} alt="image" /> */}</figure>
+            <figure>
+              <img src={imgUrl} alt="image" />
+            </figure>
           </Grid>
         </article>
 
         {!error && state.project.projects && (
           <ProjectsList projects={state.project.projects} />
         )}
-        {error && <div>{error}</div>}
+        {error && <div>{error}</div>} */}
       </Page>
     </>
   );
