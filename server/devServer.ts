@@ -1,4 +1,3 @@
-import { config } from "dotenv";
 import os from "os";
 import chalk from "chalk";
 import morgan from "morgan";
@@ -7,7 +6,7 @@ import errorHandler from "./middleware/errorHandler";
 import app from "./app";
 import isDevelopment from "./config/isDev";
 
-if (isDevelopment) config({ path: "../.env" });
+if (isDevelopment) require("dotenv").config({ path: "../.env" });
 
 connectDB();
 

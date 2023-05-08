@@ -12,7 +12,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 
 const template = {
   template: resolve(__dirname, "src/static/index.html"),
-  title: "Portfolio of Adam Deschamp",
+  title: "Portfolio",
   favicon: resolve(__dirname, "src/static/favicon.ico"),
 };
 

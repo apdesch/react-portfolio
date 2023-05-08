@@ -4,7 +4,7 @@ npm i
 npm run build:api
 npm run build:client
 # restart api server
-pm2 restart server/dist/index.js
+pm2 restart apdesch-api
 # restart server
-sudo systemctl restart nginx
-sudo systemctl restart redis-server
+systemctl restart nginx
+systemctl restart redis-server
