@@ -9,10 +9,11 @@ export interface AssetDocument {
   mimetype: string;
   ext: string;
   created: string;
-  title: string;
-  description: string;
-  altText: string;
+  title?: string;
+  description?: string;
+  altText?: string;
   userId: ObjectId;
+  tags?: string[];
 }
 
 const AssetSchema: mongoose.Schema<AssetDocument> = new mongoose.Schema({
@@ -49,6 +50,11 @@ const AssetSchema: mongoose.Schema<AssetDocument> = new mongoose.Schema({
   altText: {
     type: String,
   },
+  tags: [
+    {
+      type: String,
+    },
+  ],
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
