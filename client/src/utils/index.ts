@@ -85,6 +85,41 @@ export const projectFields = [
   },
 ];
 
-export const assetUrl = (filename: string, size?: "small"|"large"|"thumb") => {
-  return `/uploads/${size ? size + "/" : ""}${filename}`
+export const assetUrl = (
+  filename: string,
+  size?: "small" | "large" | "thumb",
+) => {
+  return `/uploads/${size ? size + "/" : ""}${filename}`;
+};
+
+export interface Item {
+  [key: string]: any;
 }
+
+export interface GroupedItems {
+  [key: string]: Item[];
+}
+
+export const groupArrayItemsByKey = (
+  array: Item[],
+  key: string,
+  groupName?: string,
+): GroupedItems => {
+  const filtered = (item: Item) =>
+    JSON.parse(JSON.stringify(array))
+      .filter((x: Item) => x[key] === item[key])
+      .map((x: Item) => {
+        delete x[key];
+        return x;
+      });
+  return Object.assign(
+    {},
+    ...array.map((item) => {
+      return {
+        [item[key]]: groupName
+          ? { [groupName]: filtered(item) }
+          : filtered(item),
+      };
+    }),
+  );
+};
