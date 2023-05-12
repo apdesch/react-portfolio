@@ -30,6 +30,7 @@ const Video = styled.div`
     top: 0;
     left: 0;
     background-color: var(--color-primary-dark);
+    border: none;
   }
 `;
 
