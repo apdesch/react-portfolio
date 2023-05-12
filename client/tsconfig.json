@@ -5,5 +5,5 @@
     "baseUrl": "./src"
   },
   "extends": "../config/tsconfig.json",
-  "exclude": ["../server"]
+  "exclude": ["../server", "./**/*.js", "./**/*.mjs", "./public"]
 }
