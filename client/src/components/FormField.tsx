@@ -85,7 +85,7 @@ const Field: React.FC<FieldProps> = ({
       return (
         <select name={name} defaultValue={defaultValue}>
           {options?.map(({ value, label }) => (
-            <option key={value} value={value}>
+            <option key={`${name}-opt-${value}`} value={value}>
               {label}
             </option>
           ))}

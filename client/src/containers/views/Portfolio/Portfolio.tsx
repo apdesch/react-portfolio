@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import type { RouteProps } from "components/Head";
-import type { Project } from "reducers/types";
+import type { Project, Asset } from "reducers/types";
+import { GroupedItems, assetUrl, groupArrayItemsByKey } from "utils";
 import Head from "components/Head";
 import Page from "components/Page";
 import { AppContext } from "contexts/App.context";
@@ -42,12 +43,21 @@ const Grid = styled.div`
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
   const { state, dispatch } = useContext(AppContext);
   const [error, setError] = useState("");
+  const [imageGroup, setImageGroups] = useState<GroupedItems>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get<Project[]>("/api/projects");
-        dispatch({ type: "PROJECT_SUCCESS", payload: data });
+        const image = await axios.get<Asset[]>("/api/assets/image");
+        const project = await axios.get<Project[]>("/api/projects");
+        if (project.data) {
+          dispatch({ type: "PROJECT_SUCCESS", payload: project.data });
+        }
+        if (image.data) {
+          const groupedImages = groupArrayItemsByKey(image.data, "category");
+          setImageGroups(groupedImages);
+          dispatch({ type: "IMAGES_SUCCESS", payload: image.data });
+        }
       } catch (error) {
         if (error instanceof Error) setError(error.message);
       }
@@ -59,55 +69,61 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
     <>
       <Head title={title} description={description} />
       <Page>
-        <PageTitle>Videos</PageTitle>
+        {error && <div>{error}</div>}
         <article>
-          <Video>
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/4-ZZnb3-eOA"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-          </Video>
-          <Description>B-roll footage for coffee roaster spec ad.</Description>
+          <h1>Videos</h1>
+          <section>
+            <Video>
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/4-ZZnb3-eOA"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </Video>
+            <Description>
+              B-roll footage for coffee roaster spec ad.
+            </Description>
+          </section>
+          <section>
+            <Video>
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/_ksmHf2Zd7Y"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </Video>
+            <Description>
+              The Palace of Fine Arts in San Francisco shot on an iPhone.
+            </Description>
+          </section>
         </article>
 
-        <article>
-          <Video>
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/_ksmHf2Zd7Y"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-          </Video>
-          <Description>
-            The Palace of Fine Arts in San Francisco shot on an iPhone.
-          </Description>
-        </article>
-
-        {/* <article>
-          <h1>Illustrations</h1>
-          <Grid>
-            <figure>
-              <img src={imgUrl} alt="image" />
-            </figure>
-          </Grid>
-        </article>
-
-        <article>
-          <h1>Photographs</h1>
-          <Grid>
-            <figure>
-              <img src={imgUrl} alt="image" />
-            </figure>
-          </Grid>
-        </article>
-
-        {!error && state.project.projects && (
-          <ProjectsList projects={state.project.projects} />
+        {!error && !!state?.asset?.images?.length && (
+          <>
+            {imageGroup &&
+              !!Object.keys(imageGroup).length &&
+              Object.keys(imageGroup).map((key) => (
+                <article>
+                  <h1>{key}</h1>
+                  <Grid>
+                    {imageGroup[key].map((image) => (
+                      <figure key={`port-image-${image.id}`}>
+                        <img
+                          src={assetUrl(image.filename)}
+                          alt={`image ${image.id}`}
+                        />
+                      </figure>
+                    ))}
+                  </Grid>
+                </article>
+              ))}
+          </>
         )}
-        {error && <div>{error}</div>} */}
+        {/* {!error && !!state.project.projects && (
+          <ProjectsList projects={state.project.projects} />
+        )} */}
       </Page>
     </>
   );

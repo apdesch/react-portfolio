@@ -50,6 +50,8 @@ export type ProjectAction =
   | { type: "PROJECT_UPDATE"; payload: string }
   | { type: "PROJECT_REMOVE"; payload: string };
 
+export type AssetCategory = "photography" | "illustration" | "design";
+
 // Assets
 export type Asset = {
   filename: string;
@@ -63,6 +65,7 @@ export type Asset = {
   title?: string;
   description?: string;
   altText?: string;
+  category?: AssetCategory;
   tags?: string[];
 };
 

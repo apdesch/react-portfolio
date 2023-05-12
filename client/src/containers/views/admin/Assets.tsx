@@ -1,4 +1,5 @@
 import React, { FormEvent, useState, useEffect, useRef } from "react";
+import { FaCopy, FaTrash } from "react-icons/fa";
 import type { RouteProps } from "components/Head";
 import type { Asset } from "reducers/types";
 import Head from "components/Head";
@@ -72,6 +73,23 @@ const Assets = ({ title, description }: RouteProps) => {
     };
   };
 
+  const handleCategoryChange = (id: string) => {
+    return async (event: FormEvent<HTMLSelectElement>) => {
+      const value = event.currentTarget.value;
+      try {
+        const { data } = await axios.put<{ message: string }>(
+          `/api/assets/${id}`,
+          { category: value },
+        );
+        if (data.message) {
+          console.log(id, "updated category to", value);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  };
+
   const handleCopyToClipboard = (text: string) => {
     return async (event: FormEvent<HTMLButtonElement>) => {
       event.preventDefault();
@@ -110,44 +128,77 @@ const Assets = ({ title, description }: RouteProps) => {
       </form>
       <main style={{ columnGap: "1em", columnCount: 6 }}>
         {fileList &&
-          fileList.map(({ id, filename, originalname, ext, mimetype }) => {
-            // regex for files which have thumbnails
-            const thumbnailMimetypeRegex = new RegExp("^(image|video|pdf)");
-            let thumbName = filename;
-            if (ext === "pdf") thumbName += ".png";
-            else if (mimetype.includes("video/")) {
-              thumbName = thumbName.replace(`.${ext}`, ".jpg");
-            }
-            return (
-              <figure key={`asset-${id}`}>
-                <a
-                  href={
-                    mimetype.includes("image/")
-                      ? `/uploads/small/${filename}`
-                      : `/uploads/${filename}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                >
-                  <img
-                    src={
-                      thumbnailMimetypeRegex.test(mimetype)
-                        ? `/uploads/thumb/${thumbName}`
-                        : "file.png"
+          fileList.map(
+            ({ id, filename, originalname, ext, mimetype, category }) => {
+              // regex for files which have thumbnails
+              const thumbnailMimetypeRegex = new RegExp("^(image|video|pdf)");
+              let thumbName = filename;
+              if (ext === "pdf") thumbName += ".png";
+              else if (mimetype.includes("video/")) {
+                thumbName = thumbName.replace(`.${ext}`, ".jpg");
+              }
+              return (
+                <figure key={`asset-${id}`}>
+                  <a
+                    href={
+                      mimetype.includes("image/")
+                        ? `/uploads/small/${filename}`
+                        : `/uploads/${filename}`
                     }
-                    className="thumb"
-                  />{" "}
-                </a>
-                {originalname}{" "}
-                <div style={{ display: "flex" }}>
-                  <button onClick={handleCopyToClipboard(filename)}>
-                    Copy file name
-                  </button>
-                  <button onClick={handleDelete(id)}>Delete File</button>
-                </div>
-              </figure>
-            );
-          })}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                  >
+                    <img
+                      src={
+                        thumbnailMimetypeRegex.test(mimetype)
+                          ? `/uploads/thumb/${thumbName}`
+                          : "file.png"
+                      }
+                      className="thumb"
+                    />{" "}
+                  </a>
+                  {originalname} Cat: {category}
+                  <div style={{ display: "flex" }}>
+                    <div>
+                      <button
+                        className="icon-button"
+                        onClick={handleCopyToClipboard(filename)}
+                      >
+                        <FaCopy />
+                      </button>
+                      <button
+                        className="icon-button"
+                        onClick={handleDelete(id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                    <div>
+                      <select
+                        name={`category-asset-${id}`}
+                        value={category}
+                        onChange={handleCategoryChange(id)}
+                      >
+                        {[
+                          { value: "" },
+                          { value: "illustration" },
+                          { value: "photography" },
+                          { value: "design" },
+                        ].map((cat) => (
+                          <option
+                            key={`category-asset-${id}-${cat.value || "none"}`}
+                            value={cat.value}
+                          >
+                            {cat.value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </figure>
+              );
+            },
+          )}
       </main>
     </>
   );

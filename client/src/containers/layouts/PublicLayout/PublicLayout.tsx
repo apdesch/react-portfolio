@@ -34,6 +34,8 @@ const App = styled.div<{ home: boolean }>`
   }
 
   @media screen and (max-width: 54em) {
+    padding-left: 1em;
+    padding-right: 1em;
     flex-direction: column;
     p {
       max-width: none;
@@ -112,6 +114,7 @@ const PublicLayout: React.FC = (): JSX.Element => {
           ].map((props, index) => {
             return (
               <Link
+                key={`global-nav-link-${props.label}`}
                 className="peakDown"
                 to={props.path}
                 style={{ animationDelay: `${(index + 1) * 200}ms` }}

@@ -6,11 +6,17 @@ const Page = styled.main`
   width: 100%;
   height: 100%;
   padding: 4em 0;
-  max-width: 48em;
+  max-width: 64em;
   > article {
-    display: flex;
-    flex-direction: column;
     margin-bottom: 3em;
+    > h1 {
+      text-transform: uppercase;
+    }
+    > section {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 3em;
+    }
   }
 `;
 
