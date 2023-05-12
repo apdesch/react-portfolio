@@ -50,6 +50,35 @@ export type ProjectAction =
   | { type: "PROJECT_UPDATE"; payload: string }
   | { type: "PROJECT_REMOVE"; payload: string };
 
+// Assets
+export type Asset = {
+  filename: string;
+  originalname: string;
+  path: string;
+  mimetype: string;
+  ext: string;
+  created: string;
+  username: string;
+  id: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  tags?: string[];
+};
+
+export type AssetsState = {
+  images?: Asset[];
+  videos?: Asset[];
+  loading?: boolean;
+  error?: string;
+};
+
+export type AssetsAction =
+  | { type: "ASSETS_LOADING"; payload: Asset }
+  | { type: "ASSETS_FAILURE"; payload: string }
+  | { type: "IMAGES_SUCCESS"; payload: Asset[] }
+  | { type: "VIDEOS_SUCCESS"; payload: Asset[] };
+
 // Post
 export type Post = {
   id: string;
@@ -65,6 +94,7 @@ export type Post = {
 // App
 interface AppState {
   auth: AuthState;
+  asset: AssetsState;
   project: ProjectState;
   resume?: string;
 }

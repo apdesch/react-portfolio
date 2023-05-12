@@ -1,18 +1,8 @@
 import React, { FormEvent, useState, useEffect, useRef } from "react";
 import type { RouteProps } from "components/Head";
+import type { Asset } from "reducers/types";
 import Head from "components/Head";
 import axios from "axios";
-
-interface Asset {
-  filename: string;
-  originalname: string;
-  path: string;
-  mimetype: string;
-  ext: string;
-  created: string;
-  username: string;
-  id: string;
-}
 
 enum UploadStatus {
   NONE = "no file",
@@ -65,6 +55,10 @@ const Assets = ({ title, description }: RouteProps) => {
   const handleDelete = (id: string) => {
     return async (event: FormEvent<HTMLButtonElement>) => {
       event.preventDefault();
+      const confirmDeletion = confirm(
+        "Are you sure you want to delete this file?\n\nThis action cannot be undone.",
+      );
+      if (!confirmDeletion) return;
       try {
         const { data } = await axios.delete<{ message: string }>(
           `/api/assets/${id}`,
@@ -117,13 +111,19 @@ const Assets = ({ title, description }: RouteProps) => {
       <main style={{ columnGap: "1em", columnCount: 6 }}>
         {fileList &&
           fileList.map(({ id, filename, originalname, ext, mimetype }) => {
-            const thumbURL = `${filename}${ext === "pdf" ? ".png" : ""}`;
+            // regex for files which have thumbnails
+            const thumbnailMimetypeRegex = new RegExp("^(image|video|pdf)");
+            let thumbName = filename;
+            if (ext === "pdf") thumbName += ".png";
+            else if (mimetype.includes("video/")) {
+              thumbName = thumbName.replace(`.${ext}`, ".jpg");
+            }
             return (
               <figure key={`asset-${id}`}>
                 <a
                   href={
                     mimetype.includes("image/")
-                      ? `/uploads/large/${filename}`
+                      ? `/uploads/small/${filename}`
                       : `/uploads/${filename}`
                   }
                   target="_blank"
@@ -131,8 +131,8 @@ const Assets = ({ title, description }: RouteProps) => {
                 >
                   <img
                     src={
-                      mimetype.includes("image") || mimetype.includes("pdf")
-                        ? `/uploads/${thumbURL}`
+                      thumbnailMimetypeRegex.test(mimetype)
+                        ? `/uploads/thumb/${thumbName}`
                         : "file.png"
                     }
                     className="thumb"

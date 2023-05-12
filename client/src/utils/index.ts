@@ -84,3 +84,7 @@ export const projectFields = [
     placeholder: "",
   },
 ];
+
+export const assetUrl = (filename: string, size?: "small"|"large"|"thumb") => {
+  return `/uploads/${size ? size + "/" : ""}${filename}`
+}
