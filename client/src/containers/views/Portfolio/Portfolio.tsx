@@ -66,7 +66,6 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
-              frameBorder={0}
             ></iframe>
           </Video>
           <Description>B-roll footage for coffee roaster spec ad.</Description>
@@ -79,7 +78,6 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
-              frameBorder={0}
             ></iframe>
           </Video>
           <Description>
