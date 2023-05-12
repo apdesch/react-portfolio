@@ -16,7 +16,7 @@ const sizes: SizeMap = {
   small: 480,
   detail: 800,
   large: 1920,
-  thumb: 160,
+  thumb: 240,
 };
 
 /**
