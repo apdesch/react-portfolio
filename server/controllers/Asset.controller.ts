@@ -14,8 +14,6 @@ import Asset, { AssetDocument } from "../models/Asset.model";
 import User from "../models/User.model";
 import { APP_ROOT } from "../app";
 
-type FindMethod = "one" | "update" | "delete";
-
 declare global {
   namespace Express {
     namespace Multer {
@@ -27,31 +25,20 @@ declare global {
   }
 }
 
-const findAssets = async (req: Request, method?: FindMethod) => {
+const findAssets = async (req: Request): Promise<any> => {
   const user = await User.findById(req.session.userId);
   let query = {};
-
   // filter user's assets
   if (!!user) Object.assign(query, { userId: req.session.userId });
-
-  // find one item
-  if (req.params.id) {
-    Object.assign(query, { _id: new ObjectId(req.params.id) });
-  } else if (req.query.t) {
-    // filter based on query params
-    Object.assign(query, req.query.t);
+  // query conditions
+  if (req.params.id && req.params.id !== "image" && req.params.id !== "video") {
+    Object.assign(query, { _id: new ObjectId(req.params.id) }); // find one item
+  } else if (req.params.id === "image") {
+    Object.assign(query, { mimetype: { $regex: "^image/*" } }); // find images
+  } else if (req.params.id === "video") {
+    Object.assign(query, { mimetype: { $regex: "^video/*" } }); // find videos
   }
-
-  // switch methods
-  switch (method) {
-    case "update":
-      return await Asset.findOneAndUpdate(query);
-    case "delete":
-      return await Asset.findOneAndDelete(query);
-    default: {
-      return await Asset.find(query);
-    }
-  }
+  return await Asset.find(query);
 };
 
 const AssetsController = {
@@ -122,21 +109,20 @@ const AssetsController = {
   },
   update: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const asset = await findAssets(req, "update");
+      const asset = await findAssets(req);
       if (!asset) return next(new ErrorResponse("File doesn't exist", 404));
-      return res.json(asset);
+      await Asset.findByIdAndUpdate(req.params.id, req.body);
+      return res.json({ message: `Asset ${req.params.id} updated.` });
     } catch (error) {
-      return error;
+      return next(new ErrorResponse("An error occurred.", 500));
     }
   },
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const asset = (await findAssets(req, "delete")) as AssetDocument;
-
-      if (!asset) throw Error("Asset doesn't exist.");
-
+      const asset = await findAssets(req);
+      if (!asset) return next(new ErrorResponse("File doesn't exist", 404));
       await Asset.findByIdAndDelete(req.params.id);
-
+      // delete processed images
       if (asset.mimetype.includes("image/")) {
         await unlink(resolve(APP_ROOT, `uploads/thumb/${asset.filename}`));
         await unlink(resolve(APP_ROOT, `uploads/small/${asset.filename}`));
@@ -144,15 +130,11 @@ const AssetsController = {
       } else if (asset.mimetype.includes("pdf")) {
         await unlink(resolve(APP_ROOT, `uploads/thumb/${asset.filename}.png`));
       } else if (asset.mimetype.includes("video/")) {
-        await unlink(
-          resolve(
-            APP_ROOT,
-            `uploads/thumb/${asset.filename.split(".")[0]}.jpg`,
-          ),
-        );
+        const filename = asset.filename.split(".")[0];
+        await unlink(resolve(APP_ROOT, `uploads/thumb/${filename}.jpg`));
       }
+      // delete asset
       await unlink(resolve(APP_ROOT, asset.path));
-
       return res.json({ message: `File ${req.params.id} deleted` });
     } catch (error) {
       return error;

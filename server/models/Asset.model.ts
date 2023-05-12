@@ -12,6 +12,7 @@ export interface AssetDocument {
   title?: string;
   description?: string;
   altText?: string;
+  category?: string;
   userId: ObjectId;
   tags?: string[];
 }
@@ -45,6 +46,9 @@ const AssetSchema: mongoose.Schema<AssetDocument> = new mongoose.Schema({
     type: String,
   },
   description: {
+    type: String,
+  },
+  category: {
     type: String,
   },
   altText: {
