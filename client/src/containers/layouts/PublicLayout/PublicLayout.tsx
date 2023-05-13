@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { FaAngellist, FaGithub, FaInstagram } from "react-icons/fa";
+import { FaAngellist } from "@react-icons/all-files/fa/FaAngellist";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+import { FaInstagram } from "@react-icons/all-files/fa/FaInstagram";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Title from "components/Title";
@@ -90,8 +92,8 @@ const PublicLayout: React.FC = (): JSX.Element => {
       icon: <FaGithub />,
     },
     {
-      url: "https://angel.co/apdesch",
-      title: "AngelList",
+      url: "https://wellfound.com/apdesch",
+      title: "Wellfound",
       icon: <FaAngellist />,
     },
     {

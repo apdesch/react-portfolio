@@ -5,6 +5,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -58,10 +59,11 @@ export default {
       ],
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
+    isDevelopment && new BundleAnalyzerPlugin(),
   ].filter(Boolean),
   resolve: {
     plugins: [new TsconfigPathsPlugin()],
-    extensions: [".tsx", ".ts", ".jsx", ".js"],
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".mjs"],
   },
   optimization: {
     runtimeChunk: "single",
@@ -71,12 +73,13 @@ export default {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
           chunks: "all",
+          maxSize: 512000,
         },
       },
     },
   },
   performance: {
     maxAssetSize: 512000,
-    maxEntrypointSize: 512000,
+    maxEntrypointSize: 800000,
   },
 };

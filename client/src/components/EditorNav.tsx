@@ -1,22 +1,20 @@
 import React from "react";
-import {
-  BiBold,
-  BiItalic,
-  BiUnderline,
-  BiHeading,
-  BiParagraph,
-  BiCode,
-  BiCodeBlock,
-  BiListUl,
-  BiListOl,
-  BiAlignLeft,
-  BiAlignMiddle,
-  BiAlignRight,
-  BiAlignJustify,
-  BiBlock,
-  BiImage,
-  BiLink,
-} from "react-icons/bi";
+import { BiBold } from "@react-icons/all-files/bi/BiBold";
+import { BiItalic } from "@react-icons/all-files/bi/BiItalic";
+import { BiUnderline } from "@react-icons/all-files/bi/BiUnderline";
+import { BiHeading } from "@react-icons/all-files/bi/BiHeading";
+import { BiParagraph } from "@react-icons/all-files/bi/BiParagraph";
+import { BiCode } from "@react-icons/all-files/bi/BiCode";
+import { BiCodeBlock } from "@react-icons/all-files/bi/BiCodeBlock";
+import { BiListUl } from "@react-icons/all-files/bi/BiListUl";
+import { BiListOl } from "@react-icons/all-files/bi/BiListOl";
+import { BiAlignLeft } from "@react-icons/all-files/bi/BiAlignLeft";
+import { BiAlignMiddle } from "@react-icons/all-files/bi/BiAlignMiddle";
+import { BiAlignRight } from "@react-icons/all-files/bi/BiAlignRight";
+import { BiAlignJustify } from "@react-icons/all-files/bi/BiAlignJustify";
+import { BiBlock } from "@react-icons/all-files/bi/BiBlock";
+import { BiImage } from "@react-icons/all-files/bi/BiImage";
+import { BiLink } from "@react-icons/all-files/bi/BiLink";
 import { CommandProps } from "@tiptap/react";
 
 const EditorNav: React.FC<CommandProps | { editor: any }> = ({ editor }) => {

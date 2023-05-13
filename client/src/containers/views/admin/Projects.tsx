@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useParams, Link as Anchor } from "react-router-dom";
-import axios, { AxiosError } from "axios";
+import loadable from "@loadable/component";
+import axios from "axios";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -11,12 +12,14 @@ import { getDateFormat, projectFields } from "utils";
 // types
 import type { RouteProps } from "components/Head";
 import type { Project } from "reducers/types";
+// contexts
+import { AppContext } from "contexts/App.context";
+
 // components
 import Head from "components/Head";
 import FormField, { FormRow } from "components/FormField";
-import EditorNav from "components/EditorNav";
-// contexts
-import { AppContext } from "contexts/App.context";
+
+const EditorNav = loadable(() => import("components/EditorNav"));
 
 const Projects = ({ title, description }: RouteProps) => {
   const { state, dispatch } = useContext(AppContext);

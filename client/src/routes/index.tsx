@@ -1,16 +1,19 @@
 import React from "react";
+import loadable from "@loadable/component";
 import type { RouteObject } from "react-router-dom";
-import PrivateRoutes from "routes/PrivateRoutes";
-import AdminLayout from "containers/layouts/AdminLayout/AdminLayout";
-import PublicLayout from "containers/layouts/PublicLayout";
-import NotFound from "containers/views/NotFound/NotFound";
-import Portfolio from "containers/views/Portfolio";
-import Resume from "containers/views/Resume";
-import About from "containers/views/About";
-import Dashboard from "containers/views/admin/Dashboard";
-import Assets from "containers/views/admin/Assets";
-import Register from "containers/views/admin/Register";
-import Projects from "containers/views/admin/Projects";
+const PrivateRoutes = loadable(() => import("routes/PrivateRoutes"));
+const AdminLayout = loadable(
+  () => import("containers/layouts/AdminLayout/AdminLayout"),
+);
+const PublicLayout = loadable(() => import("containers/layouts/PublicLayout"));
+const NotFound = loadable(() => import("containers/views/NotFound/NotFound"));
+const Portfolio = loadable(() => import("containers/views/Portfolio"));
+const Resume = loadable(() => import("containers/views/Resume"));
+const About = loadable(() => import("containers/views/About"));
+const Dashboard = loadable(() => import("containers/views/admin/Dashboard"));
+const Assets = loadable(() => import("containers/views/admin/Assets"));
+const Register = loadable(() => import("containers/views/admin/Register"));
+const Projects = loadable(() => import("containers/views/admin/Projects"));
 
 const routes: RouteObject[] = [
   {

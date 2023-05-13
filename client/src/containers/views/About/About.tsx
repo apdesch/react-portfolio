@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import type { RouteProps } from "components/Head";
 import Head from "components/Head";
 import Page from "components/Page";

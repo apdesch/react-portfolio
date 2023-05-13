@@ -1,5 +1,4 @@
 import React, { FormEvent, useState, useEffect, useRef } from "react";
-import { FaCopy, FaTrash } from "react-icons/fa";
 import type { RouteProps } from "components/Head";
 import type { Asset } from "reducers/types";
 import Head from "components/Head";
@@ -164,13 +163,13 @@ const Assets = ({ title, description }: RouteProps) => {
                         className="icon-button"
                         onClick={handleCopyToClipboard(filename)}
                       >
-                        <FaCopy />
+                        📋
                       </button>
                       <button
                         className="icon-button"
                         onClick={handleDelete(id)}
                       >
-                        <FaTrash />
+                        🗑️
                       </button>
                     </div>
                     <div>
