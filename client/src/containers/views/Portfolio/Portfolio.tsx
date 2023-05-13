@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Gallery } from "react-grid-gallery";
 import type { RouteProps } from "components/Head";
 import type { Project, Asset } from "reducers/types";
 import { GroupedItems, assetUrl, groupArrayItemsByKey } from "utils";
@@ -8,7 +9,6 @@ import { AppContext } from "contexts/App.context";
 import ProjectsList from "./ProjectsList";
 import axios from "axios";
 import styled from "styled-components";
-import PageTitle from "components/PageTitle";
 
 const Description = styled.p`
   align-self: end;
@@ -35,14 +35,6 @@ const Video = styled.div`
   }
 `;
 
-const Grid = styled.div`
-  column-gap: 1em;
-  column-count: 3;
-  @media screen and (max-width: 54em) {
-    column-count: 2;
-  }
-`;
-
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
   const { state, dispatch } = useContext(AppContext);
   const [error, setError] = useState("");
@@ -58,6 +50,7 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
         }
         if (image.data) {
           const groupedImages = groupArrayItemsByKey(image.data, "category");
+          console.log(groupedImages);
           setImageGroups(groupedImages);
           dispatch({ type: "IMAGES_SUCCESS", payload: image.data });
         }
@@ -110,16 +103,16 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
               Object.keys(imageGroup).map((key) => (
                 <article>
                   <h1>{key}</h1>
-                  <Grid>
-                    {imageGroup[key].map((image) => (
-                      <figure key={`port-image-${image.id}`}>
-                        <img
-                          src={assetUrl(image.filename, "small")}
-                          alt={`image ${image.id}`}
-                        />
-                      </figure>
-                    ))}
-                  </Grid>
+                  <Gallery
+                    images={imageGroup[key].map((image) => {
+                      return {
+                        src: assetUrl(image.filename, "small"),
+                        alt: image.alt,
+                        width: 0,
+                        height: 0,
+                      };
+                    })}
+                  />
                 </article>
               ))}
           </>

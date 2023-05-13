@@ -10,7 +10,9 @@ type SizeMap = {
   [key: string]: number;
 };
 
-type ImageSize = "small" | "detail" | "large" | "thumb";
+export type ImageSize = "small" | "detail" | "large" | "thumb";
+
+export type Size = [number, number];
 
 const sizes: SizeMap = {
   small: 480,
@@ -55,7 +57,10 @@ export const getExtensionFromMimetype = (mimetype: string) => {
   return map[mimetype] || "";
 };
 
-export const createResizedImage = async (filename: string, size: ImageSize) => {
+export const createResizedImage = async (
+  filename: string,
+  size: ImageSize,
+): Promise<[number, number]> => {
   const dest = "./uploads/";
   const buffer = sharp(`${dest}/${filename}`);
   const { width, height, hasAlpha } = await buffer.metadata();
@@ -69,7 +74,10 @@ export const createResizedImage = async (filename: string, size: ImageSize) => {
     await buffer[hasAlpha ? "png" : "jpeg"]()
       .resize(resizeWidth, resizeHeight)
       .toFile(`${dest}/${size}/${filename}`);
+
+    return [resizeWidth, resizeHeight];
   }
+  return [0, 0];
 };
 
 export const createPDFThumbnail = async (filename: string) => {

@@ -115,6 +115,7 @@ export const groupArrayItemsByKey = (
   return Object.assign(
     {},
     ...array.map((item) => {
+      if (!item[key]) return;
       return {
         [item[key]]: groupName
           ? { [groupName]: filtered(item) }

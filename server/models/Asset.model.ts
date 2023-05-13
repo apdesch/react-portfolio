@@ -1,6 +1,12 @@
 import type { Model, ObjectId } from "mongoose";
 import mongoose from "mongoose";
 
+interface ImageSizes {
+  thumb?: number[][];
+  small?: number[][];
+  large?: number[][];
+}
+
 export interface AssetDocument {
   id: string;
   filename: string;
@@ -15,6 +21,7 @@ export interface AssetDocument {
   category?: string;
   userId: ObjectId;
   tags?: string[];
+  size?: ImageSizes;
 }
 
 const AssetSchema: mongoose.Schema<AssetDocument> = new mongoose.Schema({
@@ -63,6 +70,11 @@ const AssetSchema: mongoose.Schema<AssetDocument> = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     select: false,
+  },
+  size: {
+    thumb: [{ type: Number }, { type: Number }],
+    small: [{ type: Number }, { type: Number }],
+    large: [{ type: Number }, { type: Number }],
   },
 });
 

@@ -9,6 +9,7 @@ import {
   createResizedImage,
   createPDFThumbnail,
 } from "../utils/image";
+import type { Size } from "../utils/image";
 import { createVideoThumbnail } from "../utils/video";
 import Asset, { AssetDocument } from "../models/Asset.model";
 import User from "../models/User.model";
@@ -55,10 +56,14 @@ const AssetsController = {
 
     await rename(req.file.path, `./uploads/${renamedFile}`);
 
+    let thumbSize: Size = [0, 0];
+    let smallSize: Size = [0, 0];
+    let largeSize: Size = [0, 0];
+
     if (req.file.mimetype.includes("image")) {
-      await createResizedImage(renamedFile, "thumb");
-      await createResizedImage(renamedFile, "small");
-      await createResizedImage(renamedFile, "large");
+      thumbSize = await createResizedImage(renamedFile, "thumb");
+      smallSize = await createResizedImage(renamedFile, "small");
+      largeSize = await createResizedImage(renamedFile, "large");
     } else if (req.file.mimetype === "application/pdf") {
       await createPDFThumbnail(renamedFile);
     } else if (req.file.mimetype.includes("video")) {
@@ -73,6 +78,11 @@ const AssetsController = {
       ext,
       filename: renamedFile,
       path: `uploads/${renamedFile}`,
+      size: {
+        thumb: thumbSize,
+        small: smallSize,
+        large: largeSize,
+      },
     });
 
     next();
@@ -92,6 +102,7 @@ const AssetsController = {
         mimetype,
         created,
         userId: req.session.userId,
+        size: req.file.size,
       });
       return res.json({ message: "File uploaded", path });
     } catch (error) {
