@@ -108,8 +108,8 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
                       return {
                         src: assetUrl(image.filename, "small"),
                         alt: image.alt,
-                        width: 0,
-                        height: 0,
+                        width: image.size.small[0] || 0,
+                        height: image.size.small[1] || 0,
                       };
                     })}
                   />
