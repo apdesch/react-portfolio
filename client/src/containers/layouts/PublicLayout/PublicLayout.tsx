@@ -36,6 +36,7 @@ const App = styled.div<{ home: boolean }>`
   }
 
   @media screen and (max-width: 54em) {
+    font-size: 0.8em;
     padding-left: 1em;
     padding-right: 1em;
     flex-direction: column;
@@ -61,7 +62,6 @@ const Header = styled.div`
 
 const Blurb = styled.div`
   position: relative;
-  max-width: 24em;
   font-size: 1.1em;
   align-self: center;
   text-align: justify;

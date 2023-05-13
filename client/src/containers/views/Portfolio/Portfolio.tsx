@@ -37,7 +37,10 @@ const Video = styled.div`
 
 const Grid = styled.div`
   column-gap: 1em;
-  column-count: 2;
+  column-count: 3;
+  @media screen and (max-width: 54em) {
+    column-count: 2;
+  }
 `;
 
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
@@ -111,7 +114,7 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
                     {imageGroup[key].map((image) => (
                       <figure key={`port-image-${image.id}`}>
                         <img
-                          src={assetUrl(image.filename)}
+                          src={assetUrl(image.filename, "small")}
                           alt={`image ${image.id}`}
                         />
                       </figure>
