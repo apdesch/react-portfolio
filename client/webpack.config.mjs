@@ -39,7 +39,6 @@ export default {
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
-        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpe?g|gif|svg|woff2?|ttf|eot)$/i,
@@ -80,6 +79,6 @@ export default {
   },
   performance: {
     maxAssetSize: 512000,
-    maxEntrypointSize: 800000,
+    maxEntrypointSize: 1000000,
   },
 };

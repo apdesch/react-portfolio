@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Gallery } from "react-grid-gallery";
+import PhotoAlbum from "react-photo-album";
+// lightbox
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+// lightbox plugins
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+
 import type { RouteProps } from "components/Head";
 import type { Project, Asset } from "reducers/types";
 import { GroupedItems, assetUrl, groupArrayItemsByKey } from "utils";
@@ -35,10 +43,19 @@ const Video = styled.div`
   }
 `;
 
+interface CustomImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
   const { state, dispatch } = useContext(AppContext);
   const [error, setError] = useState("");
   const [imageGroup, setImageGroups] = useState<GroupedItems>();
+  // Lightbox
+  const [index, setIndex] = useState(-1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,21 +117,42 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
           <>
             {imageGroup &&
               !!Object.keys(imageGroup).length &&
-              Object.keys(imageGroup).map((key) => (
-                <article>
-                  <h1>{key}</h1>
-                  <Gallery
-                    images={imageGroup[key].map((image) => {
-                      return {
-                        src: assetUrl(image.filename, "small"),
-                        alt: image.alt,
-                        width: image.size.small[0] || 0,
-                        height: image.size.small[1] || 0,
-                      };
-                    })}
-                  />
-                </article>
-              ))}
+              Object.keys(imageGroup).map((key) => {
+                const photos: CustomImage[] = imageGroup[key].map((image) => {
+                  return {
+                    src: assetUrl(image.filename, "small"),
+                    alt: image.alt,
+                    width: image.size.small[0] || 0,
+                    height: image.size.small[1] || 0,
+                  };
+                });
+                const slides: CustomImage[] = imageGroup[key].map((image) => {
+                  return {
+                    src: assetUrl(image.filename, "large"),
+                    alt: image.alt,
+                    width: image.size.large[0] || 0,
+                    height: image.size.large[1] || 0,
+                  };
+                });
+                return (
+                  <article>
+                    <h1>{key}</h1>
+                    <PhotoAlbum
+                      photos={photos}
+                      layout="rows"
+                      targetRowHeight={150}
+                      onClick={({ index }) => setIndex(index)}
+                    />
+                    <Lightbox
+                      slides={slides}
+                      open={index >= 0}
+                      index={index}
+                      close={() => setIndex(-1)}
+                      plugins={[Fullscreen, Slideshow, Zoom]}
+                    />
+                  </article>
+                );
+              })}
           </>
         )}
         {/* {!error && !!state.project.projects && (
