@@ -65,13 +65,16 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
         const image = await axios.get<Asset[]>("/api/assets/image");
         const project = await axios.get<Project[]>("/api/projects");
         if (project.data) {
-          dispatch({ type: "PROJECT_SUCCESS", payload: project.data });
+          dispatch({
+            type: "PROJECT_SUCCESS",
+            payload: project.data.reverse(),
+          });
         }
         if (image.data) {
-          const groupedImages = groupArrayItemsByKey(image.data, "category");
-          console.log(groupedImages);
+          const images = image.data.reverse();
+          const groupedImages = groupArrayItemsByKey(images, "category");
+          dispatch({ type: "IMAGES_SUCCESS", payload: images });
           setImageGroups(groupedImages);
-          dispatch({ type: "IMAGES_SUCCESS", payload: image.data });
         }
       } catch (error) {
         if (error instanceof Error) setError(error.message);

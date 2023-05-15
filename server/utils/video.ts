@@ -35,6 +35,6 @@ export const createVideoThumbnail = async (payload: {
 
     return await process;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

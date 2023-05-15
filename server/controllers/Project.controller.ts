@@ -58,7 +58,6 @@ const ProjectController = {
     }
   },
   update: async (req: Request, res: Response, next: NextFunction) => {
-    console.log("update");
     try {
       await Project.findByIdAndUpdate(req.params.id, req.body);
       return res.json({ message: `Project ${req.params.id} updated.` });

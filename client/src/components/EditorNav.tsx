@@ -30,7 +30,6 @@ const EditorNav: React.FC<CommandProps | { editor: any }> = ({ editor }) => {
   const addLink = () => {
     const url = window.prompt("URL");
     if (url) {
-      console.log(url);
       editor.commands.setLink({ href: url });
     }
   };
