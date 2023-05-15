@@ -1,11 +1,3 @@
-export const getImageURL = (imageName = "", sizeIndex = -1) => {
-  if (!imageName) return "";
-  if (imageName.includes("/")) return imageName;
-  const sizes = ["thumb", "small", "large"];
-  const dirName = sizes[sizeIndex] ? sizes[sizeIndex] + "/" : "";
-  return `/uploads/${dirName}${imageName}`;
-};
-
 export const getDateFormat = (date: Date) => {
   if (!date) return "";
   const d = new Date(date);

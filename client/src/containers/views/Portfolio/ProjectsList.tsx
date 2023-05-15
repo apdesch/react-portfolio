@@ -1,6 +1,7 @@
 import React from "react";
+import { sanitize } from "dompurify";
 import type { Project } from "reducers/types";
-import { getImageURL } from "utils";
+import { assetUrl } from "utils";
 
 interface ProjectProps {
   projects: Project[];
@@ -8,12 +9,13 @@ interface ProjectProps {
 
 const ProjectsList: React.FC<ProjectProps> = ({ projects }) => (
   <>
-    {projects.map(({ id, title, description, image, alt, skills }) => {
+    {projects.map(({ id, title, description, image, alt, skills, body }) => {
+      if (!image) return;
       return (
-        <article key={id} className="project-item">
+        <article key={`project-${id}`} className="project-info">
           <img
             className="thumbnail"
-            src={getImageURL(image)}
+            src={assetUrl(image)}
             alt={alt}
             role="figure"
           />
@@ -24,6 +26,12 @@ const ProjectsList: React.FC<ProjectProps> = ({ projects }) => (
               {skills && skills.map((skill) => <li key={skill}>{skill}</li>)}
             </ul>
           </section>
+          {!!body && (
+            <section
+              className="body"
+              dangerouslySetInnerHTML={{ __html: sanitize(body) }}
+            ></section>
+          )}
         </article>
       );
     })}

@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import styled from "styled-components";
 import PhotoAlbum from "react-photo-album";
 // lightbox
 import Lightbox from "yet-another-react-lightbox";
@@ -7,16 +9,16 @@ import "yet-another-react-lightbox/styles.css";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-
+// types
 import type { RouteProps } from "components/Head";
 import type { Project, Asset } from "reducers/types";
+// utils
 import { GroupedItems, assetUrl, groupArrayItemsByKey } from "utils";
+// components
 import Head from "components/Head";
 import Page from "components/Page";
-import { AppContext } from "contexts/App.context";
 import ProjectsList from "./ProjectsList";
-import axios from "axios";
-import styled from "styled-components";
+import { AppContext } from "contexts/App.context";
 
 const Description = styled.p`
   align-self: end;
@@ -113,6 +115,13 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
           </section>
         </article>
 
+        {!error && !!state.project.projects && (
+          <article>
+            <h1>Engineering Work</h1>
+            <ProjectsList projects={state.project.projects} />
+          </article>
+        )}
+
         {!error && !!state?.asset?.images?.length && (
           <>
             {imageGroup &&
@@ -155,9 +164,6 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
               })}
           </>
         )}
-        {/* {!error && !!state.project.projects && (
-          <ProjectsList projects={state.project.projects} />
-        )} */}
       </Page>
     </>
   );

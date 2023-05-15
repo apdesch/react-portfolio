@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import type { RouteProps } from "components/Head";
 import Head from "components/Head";
 import Page from "components/Page";
-// import { AppContext } from "contexts/App.context";
-// import axios from "axios";
 import styled from "styled-components";
 
 const Post = styled.div`
@@ -21,22 +19,6 @@ const Post = styled.div`
 `;
 
 const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
-  // const { state, dispatch } = useContext(AppContext);
-  // const [error, setError] = useState("");
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (state.resume) return;
-  //     try {
-  //       const { data } = await axios.get("/api/resume");
-  //       dispatch({ type: "RESUME_SUCCESS", payload: data });
-  //     } catch (error) {
-  //       if (error instanceof Error) setError(error.message);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
   return (
     <>
       <Head title={title} description={description} />
@@ -49,7 +31,7 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
               <ul>
                 <li>
                   Build core features for a web-based non-linear video editing
-                  application, including an image editor, undoable actions, and
+                  application, including an image editor, undo stack, and
                   automatic translations.
                 </li>
                 <li>
@@ -104,6 +86,10 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
                   Develop and release multiple features for the flagship EHR
                   application.
                 </li>
+                <li>
+                  Create complete wireframes and flows for future product
+                  features.
+                </li>
               </ul>
             </section>
             <section>
@@ -128,8 +114,12 @@ const Portfolio: React.FC<RouteProps> = ({ title, description }) => {
               <h2>Hot Shot Media Inc</h2>
               <ul>
                 <li>
-                  Construct and develop functional designs for photography
-                  applications and games.
+                  Construct and develop functional designs for all products
+                  including mobile web.
+                </li>
+                <li>
+                  Design logo for flagship product and assist in user experience
+                  and design.
                 </li>
               </ul>
             </section>
