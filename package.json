@@ -2,15 +2,17 @@
   "private": true,
   "scripts": {
     "postinstall": "npm i --prefix server && npm i --prefix client",
-    "rm:api": "rm -rf ./server/dist",
-    "rm:client": "rm -rf ./client/public",
-    "rm:modules": "rm -rf node_modules/ server/node_modules/ client/node_modules/",
-    "build:api": "npm run rm:api && npm run build --prefix server",
-    "build:client": "npm run rm:client && npm run build --prefix client",
-    "api": "ts-node server",
+    "rm-server": "rm -rf ./server/dist",
+    "rm-client": "rm -rf ./client/public",
+    "rm-modules": "rm -rf node_modules/ server/node_modules/ client/node_modules/",
+    "build-server": "npm run rm-server && npm run build --prefix server",
+    "build-client": "npm run rm-client && npm run build --prefix client",
+    "dev-server": "npm run dev --prefix server",
+    "dev-client": "npm run dev --prefix client",
+    "server": "ts-node server",
     "deploy": "sh deploy.sh",
-    "clean": "npm run rm:api && npm run rm:client",
-    "wipe": "npm run clean && npm run rm:modules"
+    "clean": "npm run rm-server && npm run rm-client",
+    "wipe": "npm run clean && npm run rm-modules"
   },
   "dependencies": {
     "chalk": "^5.0.1",

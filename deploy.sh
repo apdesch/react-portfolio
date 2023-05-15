@@ -1,8 +1,8 @@
 # update packages
 npm i
 # rebuild build client and api server
-npm run build:api
-npm run build:client
+npm run build-server
+npm run build-client
 # restart api server
 pm2 restart apdesch-api
 # restart server
